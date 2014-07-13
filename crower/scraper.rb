@@ -1,4 +1,4 @@
-# ƒ‰ƒCƒuƒ‰ƒŠ : nokogiri ruby-mysql
+# ãƒ©ã‚¤ãƒ–ãƒ©ãƒª : nokogiri ruby-mysql
 
 require "uri"
 require "open-uri"

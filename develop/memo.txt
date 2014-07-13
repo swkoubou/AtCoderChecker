@@ -1,53 +1,53 @@
-=== ƒf[ƒ^ƒx[ƒXŽd—l ===
-¡–}—á
-›ŽåƒL[
-©ŠO•”ƒL[
+=== ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ä»•æ§˜ ===
+â– å‡¡ä¾‹
+â—‹ä¸»ã‚­ãƒ¼
+â†å¤–éƒ¨ã‚­ãƒ¼
 
-¡ƒTƒuƒ~ƒbƒVƒ‡ƒ“
-›ƒTƒuƒ~ƒbƒVƒ‡ƒ“ ID
-©–â‘è“ÆŽ© ID
-©ƒ†[ƒU ID
-“¾“_
-ó‘Ô ( AC, WA, TLE, ... )
-Œ¾Œê
+â– ã‚µãƒ–ãƒŸãƒƒã‚·ãƒ§ãƒ³
+â—‹ã‚µãƒ–ãƒŸãƒƒã‚·ãƒ§ãƒ³ ID
+â†å•é¡Œç‹¬è‡ª ID
+â†ãƒ¦ãƒ¼ã‚¶ ID
+å¾—ç‚¹
+çŠ¶æ…‹ ( AC, WA, TLE, ... )
+è¨€èªž
 
-¡–â‘è
-›–â‘è“ÆŽ© ID
-©ƒRƒ“ƒeƒXƒg“ÆŽ© ID
-–â‘èƒXƒNƒŠ[ƒ“ƒl[ƒ€i–â‘è URL ‚Ì––”ö‚Ì‚â‚Âj
-–â‘è–¼
+â– å•é¡Œ
+â—‹å•é¡Œç‹¬è‡ª ID
+â†ã‚³ãƒ³ãƒ†ã‚¹ãƒˆç‹¬è‡ª ID
+å•é¡Œã‚¹ã‚¯ãƒªãƒ¼ãƒ³ãƒãƒ¼ãƒ ï¼ˆå•é¡Œ URL ã®æœ«å°¾ã®ã‚„ã¤ï¼‰
+å•é¡Œå
 
-¡ƒRƒ“ƒeƒXƒg
-›“ÆŽ©ID
-ƒRƒ“ƒeƒXƒg URLƒGƒ“ƒR[ƒh
-ƒRƒ“ƒeƒXƒg–¼
-last_update ( ƒf[ƒ^ƒx[ƒX‚Ì )
+â– ã‚³ãƒ³ãƒ†ã‚¹ãƒˆ
+â—‹ç‹¬è‡ªID
+ã‚³ãƒ³ãƒ†ã‚¹ãƒˆ URLã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰
+ã‚³ãƒ³ãƒ†ã‚¹ãƒˆå
+last_update ( ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã® )
 
-¡ƒ†[ƒU
-›ƒ†[ƒU ID
-–¼‘OiŽÀ–¼j
+â– ãƒ¦ãƒ¼ã‚¶
+â—‹ãƒ¦ãƒ¼ã‚¶ ID
+åå‰ï¼ˆå®Ÿåï¼‰
 
 
 
-=== ƒXƒNƒŒƒCƒsƒ“ƒOŽd—l ===
-Žg—pƒ‰ƒCƒuƒ‰ƒŠ : nokogiri ruby-mysql
-ƒpƒ‰ƒ[ƒ^FƒRƒ“ƒeƒXƒgƒhƒƒCƒ“
+=== ã‚¹ã‚¯ãƒ¬ã‚¤ãƒ”ãƒ³ã‚°ä»•æ§˜ ===
+ä½¿ç”¨ãƒ©ã‚¤ãƒ–ãƒ©ãƒª : nokogiri ruby-mysql
+ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼šã‚³ãƒ³ãƒ†ã‚¹ãƒˆãƒ‰ãƒ¡ã‚¤ãƒ³
 
-ƒf[ƒ^ƒx[ƒX‚ÉƒhƒƒCƒ“‚ª‘¶Ý‚µ‚È‚¢‚Æ‚«A‚©‚Â AtCoder ‚Ìƒgƒbƒvƒy[ƒW‚É URL ‚ª‘¶Ý‚·‚é@‚©‚Â@ƒRƒ“ƒeƒXƒgƒgƒbƒv‚É .insert-participant ‚ª‘¶Ý‚µ‚È‚¢@‚©‚Â@–â‘èˆê——ƒy[ƒWi /assignments ) ‚ª‘¶Ý‚·‚é@‚Æ‚«
-EƒRƒ“ƒeƒXƒgƒe[ƒuƒ‹‚És‘}“ü
-E–â‘èˆê——‚ÌŽæ“¾‚Æ‘}“ü
+ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã«ãƒ‰ãƒ¡ã‚¤ãƒ³ãŒå­˜åœ¨ã—ãªã„ã¨ãã€ã‹ã¤ AtCoder ã®ãƒˆãƒƒãƒ—ãƒšãƒ¼ã‚¸ã« URL ãŒå­˜åœ¨ã™ã‚‹ã€€ã‹ã¤ã€€ã‚³ãƒ³ãƒ†ã‚¹ãƒˆãƒˆãƒƒãƒ—ã« .insert-participant ãŒå­˜åœ¨ã—ãªã„ã€€ã‹ã¤ã€€å•é¡Œä¸€è¦§ãƒšãƒ¼ã‚¸ï¼ˆ /assignments ) ãŒå­˜åœ¨ã™ã‚‹ã€€ã¨ã
+ãƒ»ã‚³ãƒ³ãƒ†ã‚¹ãƒˆãƒ†ãƒ¼ãƒ–ãƒ«ã«è¡ŒæŒ¿å…¥
+ãƒ»å•é¡Œä¸€è¦§ã®å–å¾—ã¨æŒ¿å…¥
 
-ƒ†[ƒUˆê——‚ðE‚Á‚ÄAforeach
+ãƒ¦ãƒ¼ã‚¶ä¸€è¦§ã‚’æ‹¾ã£ã¦ã€foreach
 {
-	ƒTƒuƒ~ƒbƒVƒ‡ƒ“ˆê——‚ðƒXƒNƒŒƒCƒsƒ“ƒO
-	‘¶Ý‚µ‚È‚¢s‚ð‘}“ü
+	ã‚µãƒ–ãƒŸãƒƒã‚·ãƒ§ãƒ³ä¸€è¦§ã‚’ã‚¹ã‚¯ãƒ¬ã‚¤ãƒ”ãƒ³ã‚°
+	å­˜åœ¨ã—ãªã„è¡Œã‚’æŒ¿å…¥
 }
 
 
 
 === API ===
-ƒTƒuƒ~ƒbƒVƒ‡ƒ“ƒf[ƒ^‚ÌŽæ“¾
-Elast_update ‚ÌXVi”r‘¼§Œäj
-EXVŠÔŠu‚Í 10 •ª
-ƒ†[ƒUˆê——Žæ“¾
-ƒ†[ƒU’Ç‰Á
+ã‚µãƒ–ãƒŸãƒƒã‚·ãƒ§ãƒ³ãƒ‡ãƒ¼ã‚¿ã®å–å¾—
+ãƒ»last_update ã®æ›´æ–°ï¼ˆæŽ’ä»–åˆ¶å¾¡ï¼‰
+ãƒ»æ›´æ–°é–“éš”ã¯ 10 åˆ†
+ãƒ¦ãƒ¼ã‚¶ä¸€è¦§å–å¾—
+ãƒ¦ãƒ¼ã‚¶è¿½åŠ 
