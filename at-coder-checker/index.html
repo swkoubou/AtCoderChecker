@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>AtCoderChecker｜ソフトウェア工房</title>
+    <link rel="stylesheet" href="plugin/bootstrap/css/bootstrap.min.css"/>
+    <style>
+        .title {
+            margin-bottom: 20px;
+        }
+
+        .contest-list-wrap {
+            margin-bottom: 10px;
+        }
+
+        @media (min-width: 768px){
+            .container-fluid {
+                margin-left: 15px;
+                margin-right: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="title">
+        <h1>AtCoder Checker</h1>
+    </div>
+
+    <div class="contest-list-wrap">
+        <label for="contest-list" class="sr-only">コンテストリスト</label>
+        <select id="contest-list" class="form-control"
+                data-bind="options: contest_list,
+                       optionsText: 'name',
+                       optionsValue: 'contest_id',
+                       optionsCaption: 'Select contest...',
+                       value: current_contest_id,
+                       event: { change: update_current_contest }"></select>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <!-- ko foreach: users -->
+                    <th class="text-center" data-bind="text: $data"></th>
+                    <!-- /ko -->
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: problems">
+                <tr>
+                    <th data-bind="text: assignment + ': ' + name"></th>
+                    <!-- ko foreach: $root.submissions()[problem_id] -->
+
+                    <!-- ko if: $data -->
+                    <td class="text-center" data-bind="text: status"></td>
+                    <!-- /ko -->
+                    <!-- ko if: $data === null -->
+                    <td class="text-center">-</td>
+                    <!-- /ko -->
+
+                    <!-- /ko -->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="plugin/jquery.min.js"></script>
+<script src="plugin/knockout.min.js"></script>
+<script src="plugin/underscore.min.js"></script>
+<script src="plugin/bootstrap/js/bootstrap.min.js"></script>
+<script src="js/util.js"></script>
+<script src="js/model/UserModel.js"></script>
+<script src="js/model/ContestModel.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>
