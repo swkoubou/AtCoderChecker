@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "/../Controller/config.php";
+require_once __DIR__ . "/../api/config.php";
 class BaseModel{
     private static $connInfo;
 /**

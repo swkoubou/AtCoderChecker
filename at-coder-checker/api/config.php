@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "/../Model/BaseModel.php";
+require_once __DIR__ . "/../model/BaseModel.php";
 /**
  * Config Defined
  * コンフィグ定義
@@ -19,6 +19,6 @@ $connInfo = [
     "host" => "localhost",
     "dbname" => "atcoder_checker_db",
     "dbuser" => "root",
-    "password" => "sakuratree"
+    "password" => "mizukitree"
 ];
 \BaseModel::setConnectionInfo($connInfo);
