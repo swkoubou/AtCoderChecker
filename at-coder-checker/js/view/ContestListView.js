@@ -16,6 +16,8 @@
         that.fontSize = 20;
         that.mouseoverR = 120;
 
+        that.desideTitleFontSize = 24;
+
         that.items = [];
 
         that.addItem = function (e, index, data) {
@@ -148,20 +150,23 @@
                     margin: 0,
                     padding: 0,
                     left: 4,
-                    top: 4
+                    top: 4,
+                    fontSize: that.desideTitleFontSize
                 }, 800, 'easeInOutCubic', function () {
                     $('<p>' + decide_item.data.name + '</p>')
                         .addClass('contest-title')
                         .css({
-                            position: 'fixed',
+                            position: 'absolute',
                             padding: 0,
                             margin: 0,
                             top: 4,
                             left: 4,
-                            fontSize: that.fontSize
+                            fontSize: that.desideTitleFontSize
                         })
                         .appendTo('body');
                 });
+
+            console.log(decide_item.data.contest_id);
         };
 
         return that;
