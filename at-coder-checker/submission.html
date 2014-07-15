@@ -3,6 +3,8 @@
 <head>
     <meta charset="utf-8">
     <title>AtCoderChecker MoreGraphicsソフトウェア工房</title>
+
+    <link rel="stylesheet" href="plugin/bootstrap/css/bootstrap.min.css">
     <style>
         * {
             font-family:'Lucida Grande','Hiragino Kaku Gothic ProN',
@@ -22,42 +24,56 @@
             font-size: 24px;
             font-weight: normal;
         }
+
+        .container-fluid {
+            margin-top: 40px;
+        }
+
+        .table > tbody > tr:nth-child(odd) {
+            background-color: #ecf0f1;
+        }
+
+        .table > tbody > tr:nth-child(even) {
+            background-color: #bdc3c7;
+        }
+
+        .table > thead > tr {
+            background-color: #bdc3c7;
+        }
     </style>
 </head>
 <body>
 
-<div>
-    <h2 class="contest-name" data-bind="text: current_contest() && current_contest().name"></h2>
-</div>
+<p class="contest-name" data-bind="text: current_contest() && current_contest().name"></p>
 
+<div class="container-fluid">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <!-- ko foreach: users -->
+                <th class="text-center" data-bind="text: $data"></th>
+                <!-- /ko -->
+            </tr>
+            </thead>
+            <tbody data-bind="foreach: problems">
+            <tr>
+                <th data-bind="text: assignment + ': ' + name"></th>
+                <!-- ko foreach: $root.submissions()[problem_id] -->
 
+                <!-- ko if: $data -->
+                <td class="text-center" data-bind="text: status"></td>
+                <!-- /ko -->
+                <!-- ko if: $data === null -->
+                <td class="text-center">-</td>
+                <!-- /ko -->
 
-<div class="table-responsive">
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>#</th>
-            <!-- ko foreach: users -->
-            <th class="text-center" data-bind="text: $data"></th>
-            <!-- /ko -->
-        </tr>
-        </thead>
-        <tbody data-bind="foreach: problems">
-        <tr>
-            <th data-bind="text: assignment + ': ' + name"></th>
-            <!-- ko foreach: $root.submissions()[problem_id] -->
-
-            <!-- ko if: $data -->
-            <td class="text-center" data-bind="text: status"></td>
-            <!-- /ko -->
-            <!-- ko if: $data === null -->
-            <td class="text-center">-</td>
-            <!-- /ko -->
-
-            <!-- /ko -->
-        </tr>
-        </tbody>
-    </table>
+                <!-- /ko -->
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script src="plugin/jquery.min.js"></script>
