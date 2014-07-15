@@ -22,9 +22,10 @@ else if($_SERVER['REQUEST_METHOD']==="POST"){
 
     try{
 
-        if( isset($_POST['method']) && isset($_POST['user_id']) && isset($_POST['name'])){
-            $enrollment_year=date("Y/m/d",time());
-            $InputUserPost->userPost($_POST['user_id'],$_POST['name'],$enrollment_year);
+        if( isset($_POST['method']) && isset($_POST['user_id']) && isset($_POST['name'])
+            && isset($_POST['enrollment_year'])){
+
+            $InputUserPost->userPost($_POST['user_id'],$_POST['name'],$_POST['enrollment_year']);
         }
     }catch (Exception $e){
         echo $e->getMessage();
