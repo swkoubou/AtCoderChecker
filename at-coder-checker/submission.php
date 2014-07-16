@@ -27,19 +27,19 @@ if (!$pjax) { ?>
 
     <div class="container-fluid">
         <div class="table-responsive">
-            <table class="table">
+            <table class="table table-striped">
                 <thead>
-                <tr>
-                    <th>#</th>
-                    <!-- ko foreach: users -->
-                    <th class="text-center" data-bind="text: $data"></th>
-                    <!-- /ko -->
-                </tr>
+                    <tr>
+                        <th>#</th>
+                        <!-- ko foreach: problems -->
+                        <th class="text-center" data-bind="text: displayName"></th>
+                        <!-- /ko -->
+                    </tr>
                 </thead>
-                <tbody data-bind="foreach: problems">
+                <tbody data-bind="foreach: { data: users, as: 'user' }">
                 <tr>
-                    <th data-bind="text: assignment + ': ' + name"></th>
-                    <!-- ko foreach: $root.submissions()[problem_id] -->
+                    <th data-bind="text: user.displayName"></th>
+                    <!-- ko foreach: $root.submissions()[user.user_id] -->
 
                     <!-- ko if: $data -->
                     <td class="text-center" data-bind="text: status"></td>

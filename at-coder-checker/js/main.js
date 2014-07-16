@@ -23,29 +23,32 @@ $(function () {
         });
 
         user_model.users.subscribe(function (users) {
-            that.users(users.map(function (user) {
-                return user.name + '(' + user.user_id + ')';
-            }));
+            users.forEach(function (user) {
+                user.displayName = user.name + '(' + user.user_id + ')';
+            });
+            that.users(users);
         });
 
         that.update_current_contest = function () {
-            $.when(
+            return $.when(
                     user_model.fetchUsers(),
                     contest_model.fetchContest(that.current_contest().contest_id)
                 ).done(function () {
                     var contest = contest_model.lastFetchContest(),
                         users = _.pluck(user_model.users(), 'user_id'),
                         problems = contest.problems,
-                        submissions_ary = _.map(contest.problems, function (problem) {
-                            var submissions = _.indexBy(problem.submissions, 'user_id');
-
-                            return _.map(users, function (user) {
-                                return submissions[user] ? submissions[user] : null;
+                        submissions_ary = _.map(users, function (user) {
+                            return _.map(problems, function (problem) {
+                                return _.where(problem.submissions, { user_id: user })[0] || null;
                             });
                         }),
-                        submissions = _.object(_.pluck(problems, 'problem_id'), submissions_ary);
+                        submissions = _.object(users, submissions_ary);
 
                     that.submissions(submissions);
+
+                    problems.forEach(function (problem) {
+                        problem.displayName = problem.assignment + ': ' + problem.name;
+                    });
                     that.problems(problems);
                 });
         };
