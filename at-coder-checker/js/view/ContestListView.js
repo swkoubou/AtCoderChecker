@@ -136,7 +136,7 @@
                 }
             });
 
-            // 決定されたものは広がる。
+            // 決定されたものは超拡大。
             // 左上に文字列を固定化
             $(decide_item.e)
                 .css('backgroundColor', color)

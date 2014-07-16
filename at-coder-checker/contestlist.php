@@ -6,39 +6,16 @@
 
     <link rel="stylesheet" href="plugin/bootstrap/css/bootstrap.min.css">
     <style>
-        * {
-            font-family:'Lucida Grande','Hiragino Kaku Gothic ProN',
-            Meiryo, sans-serif;
-        }
-
         body {
             background-color: #3498db
         }
-
-        .contest {
-            position: absolute;
-            padding: 0;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background-color: #f39c12;
-        }
-
-        .contest .contest-name {
-            margin: 0;
-            font-size: 0;
-            text-align: center;
-        }
-
-        .contest:hover {
-            background-color: #e74c3c;
-            cursor: pointer;
-        }
     </style>
+
+    <link rel="stylesheet" href="css/common.css">
 </head>
 <body>
 
-<div>
+<div class="container-fluid" id="container-contestlist">
     <div class="contest-list-wrap" data-bind="foreach: {
         data: contest_list,
         afterAdd: view.addCircle }">

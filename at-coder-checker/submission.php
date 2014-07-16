@@ -10,40 +10,10 @@ if (!$pjax) { ?>
     <title>AtCoderChecker MoreGraphicsソフトウェア工房</title>
 
     <link rel="stylesheet" href="plugin/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/common.css">
     <style>
-        * {
-            font-family:'Lucida Grande','Hiragino Kaku Gothic ProN',
-            Meiryo, sans-serif;
-        }
-
         body {
             background-color: #e74c3c;
-        }
-
-        .contest-name {
-            position: absolute;
-            padding: 0;
-            margin: 0;
-            top: 4px;
-            left: 4px;
-            font-size: 24px;
-            font-weight: normal;
-        }
-
-        .container-fluid {
-            margin-top: 40px;
-        }
-
-        .table > tbody > tr:nth-child(odd) {
-            background-color: #ecf0f1;
-        }
-
-        .table > tbody > tr:nth-child(even) {
-            background-color: #bdc3c7;
-        }
-
-        .table > thead > tr {
-            background-color: #bdc3c7;
         }
     </style>
 </head>
@@ -51,36 +21,40 @@ if (!$pjax) { ?>
 
 <?php } ?>
 
-<p class="contest-name" data-bind="text: current_contest() && current_contest().name"></p>
+<div id="container-submission">
 
-<div class="container-fluid">
-    <div class="table-responsive">
-        <table class="table">
-            <thead>
-            <tr>
-                <th>#</th>
-                <!-- ko foreach: users -->
-                <th class="text-center" data-bind="text: $data"></th>
-                <!-- /ko -->
-            </tr>
-            </thead>
-            <tbody data-bind="foreach: problems">
-            <tr>
-                <th data-bind="text: assignment + ': ' + name"></th>
-                <!-- ko foreach: $root.submissions()[problem_id] -->
+    <p class="current-contest-name" data-bind="text: current_contest() && current_contest().name"></p>
 
-                <!-- ko if: $data -->
-                <td class="text-center" data-bind="text: status"></td>
-                <!-- /ko -->
-                <!-- ko if: $data === null -->
-                <td class="text-center">-</td>
-                <!-- /ko -->
+    <div class="container-fluid">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <!-- ko foreach: users -->
+                    <th class="text-center" data-bind="text: $data"></th>
+                    <!-- /ko -->
+                </tr>
+                </thead>
+                <tbody data-bind="foreach: problems">
+                <tr>
+                    <th data-bind="text: assignment + ': ' + name"></th>
+                    <!-- ko foreach: $root.submissions()[problem_id] -->
 
-                <!-- /ko -->
-            </tr>
-            </tbody>
-        </table>
+                    <!-- ko if: $data -->
+                    <td class="text-center" data-bind="text: status"></td>
+                    <!-- /ko -->
+                    <!-- ko if: $data === null -->
+                    <td class="text-center">-</td>
+                    <!-- /ko -->
+
+                    <!-- /ko -->
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
+
 </div>
 
 <?php if (!$pjax) { ?>

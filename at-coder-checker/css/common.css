@@ -1,0 +1,41 @@
+.container-fluid {
+    margin-top: 40px;
+}
+
+.table > tbody > tr:nth-child(odd) {
+    background-color: #ecf0f1;
+}
+
+.table > tbody > tr:nth-child(even) {
+    background-color: #bdc3c7;
+}
+
+.table > thead > tr {
+    background-color: #bdc3c7;
+}
+
+.contest {
+    position: absolute;
+    padding: 0;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background-color: #f39c12;
+}
+
+.contest .contest-name {
+    margin: 0;
+    font-size: 0;
+    text-align: center;
+}
+
+.contest:hover {
+    background-color: #e74c3c;
+    cursor: pointer;
+}
+
+.current-contest-name {
+    margin: 0;
+    padding: 4px;
+    font-size: 24px;
+}

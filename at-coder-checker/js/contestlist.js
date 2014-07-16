@@ -26,6 +26,34 @@ $(function () {
         vm.contest_list(contests);
     });
 
+    vm.update_current_contest = function () {
+        $.when(
+                user_model.fetchUsers(),
+                contest_model.fetchContest(vm.current_contest().contest_id)
+            ).done(function () {
+                var contest = contest_model.lastFetchContest(),
+                    users = _.pluck(user_model.users(), 'user_id'),
+                    problems = contest.problems,
+                    submissions_ary = _.map(contest.problems, function (problem) {
+                        var submissions = _.indexBy(problem.submissions, 'user_id');
+
+                        return _.map(users, function (user) {
+                            return submissions[user] ? submissions[user] : null;
+                        });
+                    }),
+                    submissions = _.object(_.pluck(problems, 'problem_id'), submissions_ary);
+
+                vm.submissions(submissions);
+                vm.problems(problems);
+            });
+    };
+
+    user_model.users.subscribe(function (users) {
+        vm.users(users.map(function (user) {
+            return user.name + '(' + user.user_id + ')';
+        }));
+    });
+
     //
 
     vm.decideItem = function (e) {
@@ -33,52 +61,25 @@ $(function () {
 //
 //        });
 
+        // view用にdelay
         setTimeout(function () {
             $.pjax({
-                url: 'submission.php',
+                url: 'submission.php?contest_id=' + e.contest_id,
                 container: 'body'
             });
         }, 1000);
 
-        $(document).on('pjax:success', function (e, data) {
-            ko.applyBindings(vm);
+        $(document).on('pjax:success', function () {
+            ko.applyBindings(vm, document.getElementById('container-submission'));
         });
 
-
-        //test
         vm.current_contest(e);
-
-        user_model.users.subscribe(function (users) {
-            vm.users(users.map(function (user) {
-                return user.name + '(' + user.user_id + ')';
-            }));
-        });
-
-        vm.update_current_contest = function () {
-            $.when(
-                    user_model.fetchUsers(),
-                    contest_model.fetchContest(vm.current_contest().contest_id)
-                ).done(function () {
-                    var contest = contest_model.lastFetchContest(),
-                        users = _.pluck(user_model.users(), 'user_id'),
-                        problems = contest.problems,
-                        submissions_ary = _.map(contest.problems, function (problem) {
-                            var submissions = _.indexBy(problem.submissions, 'user_id');
-
-                            return _.map(users, function (user) {
-                                return submissions[user] ? submissions[user] : null;
-                            });
-                        }),
-                        submissions = _.object(_.pluck(problems, 'problem_id'), submissions_ary);
-
-                    vm.submissions(submissions);
-                    vm.problems(problems);
-                });
-        };
-
+        vm.update_current_contest();
     };
+
+    //
 
     contest_model.fetchContestList();
 
-    ko.applyBindings(vm);
+    ko.applyBindings(vm, document.getElementById('container-contestlist'));
 });
