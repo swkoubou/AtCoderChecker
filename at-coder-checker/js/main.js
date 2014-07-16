@@ -1,64 +1,76 @@
 $(function () {
     'use strict';
 
-    var model_ns = util.namespace('swkoubou.atcoderchecker.model'),
-        user_model = new model_ns.UserModel(),
-        contest_model = new model_ns.ContestModel(),
-        vm = {};
+    var ns = util.namespace('swkoubou.atcoderchecker.viewmodel'),
+        model_ns = util.namespace('swkoubou.atcoderchecker.model');
 
-    vm.users = ko.observableArray();
-    vm.contest_list = ko.observableArray();
-    vm.current_contest_id = ko.observable();
-    vm.submissions = ko.observableArray();
-    vm.problems = ko.observable();
+    ns.HogeViewModel = function HogeViewModel(models) {
+        var that = this,
+            safe_models = models || {},
+            user_model = safe_models.user_model || new model_ns.UserModel(),
+            contest_model = safe_models.contest_model || new model_ns.ContestModel();
 
-    user_model.users.subscribe(function (users) {
-        vm.users(users.map(function (user) {
-            return user.name + '(' + user.user_id + ')';
-        }));
-    });
+        that.contest_list = ko.observableArray();
+        that.current_contest = ko.observable();
+        that.users = ko.observableArray();
+        that.submissions = ko.observableArray();
+        that.problems = ko.observable();
 
-    contest_model.contestList.subscribe(function (contests) {
-        vm.contest_list(contests);
-    });
+        that.current_contest_id = ko.observable();
 
-    vm.update_current_contest = function () {
-        if (!vm.current_contest_id()) {
-            return;
-        }
-
-        $.when(
-            user_model.fetchUsers(),
-            contest_model.fetchContest(vm.current_contest_id())
-        ).done(function () {
-            var contest = contest_model.lastFetchContest(),
-                users = _.pluck(user_model.users(), 'user_id'),
-                problems = contest.problems,
-                submissions_ary = _.map(contest.problems, function (problem) {
-                    var submissions = _.indexBy(problem.submissions, 'user_id');
-
-                    return _.map(users, function (user) {
-                        return submissions[user] ? submissions[user] : null;
-                    });
-                }),
-                submissions = _.object(_.pluck(problems, 'problem_id'), submissions_ary);
-
-            vm.submissions(submissions);
-            vm.problems(problems);
+        contest_model.contestList.subscribe(function (contests) {
+            that.contest_list(contests);
         });
+
+        user_model.users.subscribe(function (users) {
+            that.users(users.map(function (user) {
+                return user.name + '(' + user.user_id + ')';
+            }));
+        });
+
+        that.update_current_contest = function () {
+            $.when(
+                    user_model.fetchUsers(),
+                    contest_model.fetchContest(that.current_contest().contest_id)
+                ).done(function () {
+                    var contest = contest_model.lastFetchContest(),
+                        users = _.pluck(user_model.users(), 'user_id'),
+                        problems = contest.problems,
+                        submissions_ary = _.map(contest.problems, function (problem) {
+                            var submissions = _.indexBy(problem.submissions, 'user_id');
+
+                            return _.map(users, function (user) {
+                                return submissions[user] ? submissions[user] : null;
+                            });
+                        }),
+                        submissions = _.object(_.pluck(problems, 'problem_id'), submissions_ary);
+
+                    that.submissions(submissions);
+                    that.problems(problems);
+                });
+        };
+
+        that.decideItem = function (e) {
+//        window.addEventListener('popstate', function () {
+//
+//        });
+
+            // view用にdelay
+            setTimeout(function () {
+                $.pjax({
+                    url: 'submission.php?contest_id=' + e.contest_id,
+                    container: 'body'
+                });
+            }, 1000);
+
+            $(document).on('pjax:success', function () {
+                ko.applyBindings(that, document.getElementById('container-submission'));
+            });
+
+            that.current_contest(e);
+            that.update_current_contest();
+        };
+
+        return that;
     };
-
-    //
-
-    contest_model.fetchContestList();
-
-    ko.applyBindings(vm);
-
-    //
-
-    setTimeout(function () {
-        vm.current_contest_id(1);
-        vm.update_current_contest();
-    }, 100);
-
 });

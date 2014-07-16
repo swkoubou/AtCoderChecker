@@ -36,6 +36,7 @@
 <script src="js/model/UserModel.js"></script>
 <script src="js/model/ContestModel.js"></script>
 <script src="js/view/ContestListView.js"></script>
+<script src="js/main.js"></script>
 <script src="js/contestlist.js"></script>
 
 </body>
