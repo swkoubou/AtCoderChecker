@@ -1,3 +1,8 @@
+<?php
+require_once __DIR__ . "/php/pjax.php";
+
+if (!$pjax) { ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,6 +49,8 @@
 </head>
 <body>
 
+<?php } ?>
+
 <p class="contest-name" data-bind="text: current_contest() && current_contest().name"></p>
 
 <div class="container-fluid">
@@ -76,6 +83,7 @@
     </div>
 </div>
 
+<?php if (!$pjax) { ?>
 <script src="plugin/jquery.min.js"></script>
 <script src="plugin/knockout.min.js"></script>
 <script src="plugin/underscore.min.js"></script>
@@ -88,3 +96,4 @@
 
 </body>
 </html>
+<?php } ?>

@@ -4,7 +4,15 @@
     var ns = util.namespace('swkoubou.atcoderchecker.view');
 
     ns.ContestListView = function ContestListView() {
-        var that = this;
+        var that = this,
+            x1 = _.memoize(function () { return Math.random() * that.width * 1.5; }),
+            y1 = _.memoize(function () { return Math.random() * that.height * 1.5; }),
+            x2 = _.memoize(function (index) {
+                return index % 10 * that.r + (index % 10 + 1) * that.mergin + that.leftMergin;
+            }),
+            y2 = _.memoize(function (index) {
+                return Math.floor(index / 10) * that.r + (Math.floor(index / 10) + 1) * that.mergin + that.topMergin;
+            });
 
         that.width = 1000;
         that.height = 1000;
@@ -20,85 +28,86 @@
 
         that.items = [];
 
-        that.addItem = function (e, index, data) {
+        that.addCircle = function (e, i, data) {
             if (e.nodeType === 3) {
                 return;
             }
 
-            var item = { e: e, index: index, data: data };
+            var item = { e: e, index: i, data: data };
             that.items.push(item);
 
             setTimeout(function () {
-                var duration = 500 + Math.random() * 500,
-                    x1 = Math.random() * that.width * 1.5,
-                    y1 = Math.random() * that.height * 1.5,
-                    x2 = index % 10 * that.r + (index % 10 + 1) * that.mergin + that.leftMergin,
-                    y2 = Math.floor(index / 10) * that.r + (Math.floor(index / 10) + 1) * that.mergin + that.topMergin;
+                var duration = 500 + Math.random() * 500;
 
                 $(e)
                     // 円の初期化
-                    .css('left', x1)
-                    .css('top', y1)
+                    .css('left', x1(i))
+                    .css('top', y1(i))
                     .animate({
                         width: that.r,
                         height: that.r,
                         backgroundColor: '#245269',
-                        left: x2,
-                        top: y2
+                        left: x2(i),
+                        top: y2(i)
                     }, duration, 'easeInOutCubic')
 
                     // 文字列の初期化
                     .children('.contest-name')
-                    .css('left', x1)
-                    .css('top', y1)
+                    .css('left', x1(i))
+                    .css('top', y1(i))
                     .css('paddingTop', that.r / 2)
                     .css('paddingBottom', that.r / 2)
                     .animate({
-                        left: x2,
-                        top: y2,
+                        left: x2(i),
+                        top: y2(i),
                         fontSize: that.fontSize,
                         paddingTop: that.r / 2 - that.fontSize / 2,
                         paddingBottom: that.r / 2 - that.fontSize / 2
                     }, duration, 'easeInOutCubic')
                     .end()
 
-                    // マウスイベント追加
-                    .mouseover(function () {
-                        $(this)
-                            .animate({
-                                left: x2 - (that.mouseoverR - that.r) / 2,
-                                top: y2 - (that.mouseoverR - that.r) / 2,
-                                width: that.mouseoverR,
-                                height: that.mouseoverR
-                            }, { duration: 500, easing: 'easeOutCubic' })
-                            .dequeue()
-                            .children('.contest-name')
-                            .animate({
-                                paddingTop: that.mouseoverR / 2 - that.fontSize / 2,
-                                paddingBottom: that.mouseoverR / 2 - that.fontSize / 2
-                            }, { duration: 500, easing: 'easeOutCubic' })
-                            .dequeue();
-                    })
-                    .mouseleave(function () {
-                        $(this)
-                            .animate({
-                                left: x2,
-                                top: y2,
-                                width: that.r,
-                                height: that.r
-                            }, { duration: 500, easing: 'easeOutCubic' })
-                            .dequeue()
-                            .children('.contest-name')
-                            .animate({
-                                paddingTop: that.r / 2 - that.fontSize / 2,
-                                paddingBottom: that.r / 2 - that.fontSize / 2
-                            }, { duration: 500, easing: 'easeOutCubic' })
-                            .dequeue();
-                    })
                     .click(function () {
                         that.decide(item);
                     });
             }, Math.random() * 500);
+        };
+
+        that.scaleUp = function (item, e) {
+            var i = that.items.indexOf(_.find(that.items, function (x) { return x.data === item; }));
+
+            $(e.currentTarget)
+                .animate({
+                    left: x2(i) - (that.mouseoverR - that.r) / 2,
+                    top: y2(i) - (that.mouseoverR - that.r) / 2,
+                    width: that.mouseoverR,
+                    height: that.mouseoverR
+                }, { duration: 500, easing: 'easeOutCubic' })
+                .dequeue()
+                .children('.contest-name')
+                .animate({
+                    paddingTop: that.mouseoverR / 2 - that.fontSize / 2,
+                    paddingBottom: that.mouseoverR / 2 - that.fontSize / 2
+                }, { duration: 500, easing: 'easeOutCubic' })
+                .dequeue();
+        };
+
+        that.scaleDown = function (item, e) {
+            var i = that.items.indexOf(_.find(that.items, function (x) { return x.data === item; }));
+
+            $(e.currentTarget)
+                .animate({
+                    left: x2(i),
+                    top: y2(i),
+                    width: that.r,
+                    height: that.r
+                }, { duration: 500, easing: 'easeOutCubic' })
+                .dequeue()
+                .children('.contest-name')
+                .animate({
+                    paddingTop: that.r / 2 - that.fontSize / 2,
+                    paddingBottom: that.r / 2 - that.fontSize / 2
+                }, { duration: 500, easing: 'easeOutCubic' })
+                .dequeue();
         };
 
         that.decide = function (decide_item) {
@@ -165,8 +174,6 @@
                         })
                         .appendTo('body');
                 });
-
-            console.log(decide_item.data.contest_id);
         };
 
         return that;
