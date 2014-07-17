@@ -79,6 +79,7 @@ contest_page_dom = open( contest_url ) do |html|
 	Nokogiri::HTML.parse( html )
 end
 if !url_exists_in_page?( contest_url, AtCoderRootURL ) || contest_page_dom.at( ".insert-participant" ) != nil || contest_page_dom.at( "//a[ @href = '/assignments' ]" ) == nil then
+	puts "invalid URL"
 	exit false
 end
 
