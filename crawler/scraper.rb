@@ -86,7 +86,13 @@ contest_name = contest_page_dom.at( "span.contest-name" ).text
 
 puts "Target Contest : " + contest_name
 
-mysql_connection =  Mysql::new( MySQLHost, MySQLUser, MYSQLPass, DatabaseName )
+begin
+	mysql_connection =  Mysql::new( MySQLHost, MySQLUser, MYSQLPass, DatabaseName )
+rescue
+	puts "Database connection error!"
+	exit false 
+end
+
 ret_status = true
 begin
 	mysql_connection.query( "start transaction" )
