@@ -79,7 +79,7 @@ contest_page_dom = open( contest_url ) do |html|
 	Nokogiri::HTML.parse( html )
 end
 if !url_exists_in_page?( contest_url, AtCoderRootURL ) || contest_page_dom.at( ".insert-participant" ) != nil || contest_page_dom.at( "//a[ @href = '/assignments' ]" ) == nil then
-	exit
+	exit false
 end
 
 contest_name = contest_page_dom.at( "span.contest-name" ).text
@@ -87,6 +87,7 @@ contest_name = contest_page_dom.at( "span.contest-name" ).text
 puts "Target Contest : " + contest_name
 
 mysql_connection =  Mysql::new( MySQLHost, MySQLUser, MYSQLPass, DatabaseName )
+ret_status = true
 begin
 	mysql_connection.query( "start transaction" )
 
@@ -140,8 +141,11 @@ begin
 rescue
 	puts "Error!"
 	mysql_connection.query( "rollback" )
+	ret_status = false
 else
 	mysql_connection.query( "commit" )
 ensure
 	mysql_connection.close
 end
+
+exit ret_status
