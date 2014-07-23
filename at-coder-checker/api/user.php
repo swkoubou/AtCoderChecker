@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . "/../model/UserModel.php";
-require_once __DIR__ . "/config.php";
+require_once __DIR__ . "/../model/config.php";
 /**
  * Created by PhpStorm.
  * User: 1422085

@@ -1,28 +1,46 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: 1422085
- * Date: 14/06/25
- * Time: 20:34
- */
 require_once __DIR__ . "/BaseModel.php";
-class SubmissionModel extends BaseModel{
-    const TBNAME="submission";
+require_once __DIR__ . "/config.php";
 
-    public function submissionGet(){
-        try{
-            //$nowTime=time();
-            //if(isset())
-            //$this->timeUpdate();
-            sleep(1000);
-            $SubG=$this->selects(self::TBNAME);
-            return $SubG->fetchAll();
-            /*while($out=$SubG->fetch(PDO::FETCH_ASSOC)){
-                var_dump($out);//Controllに移す
-            }*/
-        }catch (Exception $e){
+class SubmissionModel extends BaseModel{
+    public function submissionGet($contest_id){
+        // problemを全て取得する
+        try {
+            $stmt = $this->select("problem", ["contest_id" => $contest_id]);
+        } catch (Exception $e) {
             throw new Exception($e);
         }
+
+        $problems = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // 各problemに対して、該当するsubmissionを取得して格納する
+        foreach ($problems as &$problem) {
+            try {
+                $stmt = $this->select("submission", ["problem_id" => $problem["problem_id"]]);
+            } catch (Exception $e) {
+                throw new Exception($e);
+            }
+
+            $problem["submissions"] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        return $problems;
+    }
+
+    public function needCrawl($contest_id) {
+        // 時間見る
+        return true;
+    }
+
+    public function crawl($contest_id) {
+        // トランザクション begin
+
+        // 時間を見て
+
+        // クロールする
+
+        // トランザクション commit
+
+        return true;
     }
 }
-?>
