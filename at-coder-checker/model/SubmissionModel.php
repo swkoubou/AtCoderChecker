@@ -1,53 +1,46 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: 1422085
- * Date: 14/06/25
- * Time: 20:34
- */
 require_once __DIR__ . "/BaseModel.php";
+require_once __DIR__ . "/config.php";
+
 class SubmissionModel extends BaseModel{
-    const TBNAME="submission";
-
-    public function submissionGet(){
-        try{
-            //$nowTime=time();
-            //if(isset())
-            //$this->timeUpdate();
-            //sleep(1000);
-            //if($_SERVER['REQUESTMETHOD'==="GET"])
-            /*if($_SERVER['REQUESTMETHOD'==="GET"])
-                if(isset($_GET['method']) && (isset($_GET['submission_id']) || isset($_GET['problem_id'])
-                    || isset($_GET['user_id']) || isset($_GET['score']) || isset($_GET['status'])
-                        || isset($_GET['language']) ) ){
-                    $value=
-            $this->update(self::TBNAME,[$method=> $_GET[],[]]);*/
-//            $SubG=$this->selects(self::TBNAME);
-//            return $SubG->fetchAll();
-            /*while($out=$SubG->fetch(PDO::FETCH_ASSOC)){
-                var_dump($out);//Controllに移す
-            }*/
-
-            /*$problems = 配列;
-問題文だけ回す
-  $problems[i]['submissions'] = fetchAll(sql(その問題の提出結果を取得));
-*/
-            $subpro=array();
-            foreach($subpro as $key=>$val){
-                //$i=0;
-                //print_r($subpro);
-                $subpro[$key][$val]=$this->selects(self::TBNAME)->fetchAll();
-
-            }
-            //$datea=$this->selects(self::TBNAME)->fetchAll();
-            //return print_r($datea);
-//            foreach($subpro as $a){
-//                return $subpro->fetchAll();
-//            }
-
-        }catch (Exception $e){
+    public function submissionGet($contest_id){
+        // problemを全て取得する
+        try {
+            $stmt = $this->select("problem", ["contest_id" => $contest_id]);
+        } catch (Exception $e) {
             throw new Exception($e);
         }
+
+        $problems = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // 各problemに対して、該当するsubmissionを取得して格納する
+        foreach ($problems as &$problem) {
+            try {
+                $stmt = $this->select("submission", ["problem_id" => $problem["problem_id"]]);
+            } catch (Exception $e) {
+                throw new Exception($e);
+            }
+
+            $problem["submissions"] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        return $problems;
+    }
+
+    public function needCrawl($contest_id) {
+        // 時間見る
+        return true;
+    }
+
+    public function crawl($contest_id) {
+        // トランザクション begin
+
+        // 時間を見て
+
+        // クロールする
+
+        // トランザクション commit
+
+        return true;
     }
 }
-?>

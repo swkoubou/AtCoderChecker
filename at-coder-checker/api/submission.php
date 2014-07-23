@@ -1,34 +1,40 @@
 <?php
 require_once __DIR__ . "/../model/SubmissionModel.php";
-require_once __DIR__ . "/config.php";
-/**
- * Created by PhpStorm.
- * User: 1422085
- * Date: 14/06/29
- * Time: 0:48
- */
+require_once __DIR__ . "/../model/config.php";
 
-if($_SERVER['REQUEST_METHOD']==="GET"){
-    $OutputSubGet=new SubmissionModel();
-    try{
-        /*if($subid=$_GET["submission_id"] || $proid=$_GET["problem_id"] || $userid=$_GET["user_id"]
-            || $score=$_GET["score"] || $status=$_GET["status"] || $lang=$_GET["language"]){
+if ($_SERVER['REQUEST_METHOD'] === "GET"){
+    header("Content-type: text/json; charset=utf-8");
 
-        }*/
-
-        $OutputData=$OutputSubGet->submissionGet();
-        echo json_encode($OutputData);
-        /*if( isset($_POST['method']) && isset($_POST['contest_id']) &&
-            isset($_POST['url']) && isset($_POST['updated_at'])){
-            $data->contestPost($_POST['contest_id'],$_POST['url'],$_POST['updated_at']);
-        }*/
-    }catch(Exception $e){
-        echo $e->getMessage();
-        exit();
+    // パラメータが間違っていたら throw 400
+    if (!array_key_exists('contest_id', $_GET)) {
+        http_response_code(400);
+        echo json_encode(["message" => "contest_id is required."]);
+        exit;
     }
+
+    // クライアントに返す連想配列
+    $res = [
+        "contest_id" => $_GET["contest_id"],
+        "problems" => []
+    ];
+
+    $m_submission = new SubmissionModel();
+
+    // 一定時間経っていたら、クローラを回してDBを更新する
+    
+
+    // サブミッションを取得する
+    try {
+        $res["problems"] = $m_submission->submissionGet($_GET["contest_id"]);
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode(["message" => $e->getMessage()]);
+        exit;
+    }
+
+    echo json_encode($res, JSON_PRETTY_PRINT);
+    http_response_code(200);
+} else {
+    // GET以外のメソッドの場合は405
+    http_response_code(405);
 }
-else{
-    error_log("err");
-    exit();
-}
-?>
