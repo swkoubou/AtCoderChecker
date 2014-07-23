@@ -11,6 +11,11 @@ require_once __DIR__ . "/config.php";
 if($_SERVER['REQUEST_METHOD']==="GET"){
     $OutputSubGet=new SubmissionModel();
     try{
+        /*if($subid=$_GET["submission_id"] || $proid=$_GET["problem_id"] || $userid=$_GET["user_id"]
+            || $score=$_GET["score"] || $status=$_GET["status"] || $lang=$_GET["language"]){
+
+        }*/
+
         $OutputData=$OutputSubGet->submissionGet();
         echo json_encode($OutputData);
         /*if( isset($_POST['method']) && isset($_POST['contest_id']) &&

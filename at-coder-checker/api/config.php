@@ -19,6 +19,6 @@ $connInfo = [
     "host" => "localhost",
     "dbname" => "atcoder_checker_db",
     "dbuser" => "root",
-    "password" => "****"
+    "password" => "popuratree"
 ];
 \BaseModel::setConnectionInfo($connInfo);
