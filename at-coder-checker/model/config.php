@@ -1,10 +1,10 @@
 <?php
-require_once __DIR__ . "/../model/BaseModel.php";
+namespace atcoderchecker;
+require_once __DIR__ . "/BaseModel.php";
 /**
  * Config Defined
  * コンフィグ定義
  */
-namespace atcoderchecker;
 
 class Config {
     // クローラの最小待機時間
@@ -18,6 +18,6 @@ $connInfo = [
     "host" => "localhost",
     "dbname" => "atcoder_checker_db",
     "dbuser" => "root",
-    "password" => "****"
+    "password" => "giqrc34n"
 ];
 \BaseModel::setConnectionInfo($connInfo);
