@@ -1,4 +1,5 @@
-drop database atcoder_checker_db;
+drop database if exists atcoder_checker_db;
+
 create database atcoder_checker_db;
 use atcoder_checker_db;
 
