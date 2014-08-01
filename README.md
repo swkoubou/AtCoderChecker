@@ -18,8 +18,8 @@ Development
 - `crawler`: クローラプログラム用のディレクトリです。Rubyで開発します。
 - `at-corder-checker`: Webで公開するディレクトリです。実サーバではここにシンボリックリンクを張ります。PHP, HTML/CSS, JavaScript で開発します。
 
-### �����ݒ�
+#### 初期設定
 
-1. `develop/database_initialize.sql` ��MySQL�Ŏ��s���A�f�[�^�x�[�X���\�z���܂��B
-2. `gem install nokogiri ruby-mysql` �����s���A�K�v�ȃ��C�u�������C���X�g�[�����܂��B
-3. `develop/config.json` ���̃v���W�F�N�g�̃��[�g�ɃR�s�[���A�p�X���[�h���A�K�v�ɉ����ĕҏW���܂��B
+1. `develop/database_initialize.sql` をMySQLで実行し、データベースを構築します。
+2. `gem install nokogiri ruby-mysql` を実行し、必要なライブラリをインストールします。
+3. `develop/config.json` をこのプロジェクトのルートにコピーし、パスワード等、必要に応じて編集します。
