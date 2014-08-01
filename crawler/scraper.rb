@@ -4,13 +4,11 @@ require "uri"
 require "open-uri"
 require "nokogiri"
 require "mysql"
+require "JSON"
 
 AtCoderRootURL = "http://atcoder.jp/"
 
-MySQLHost = "127.0.0.1"
-MySQLUser = "root"
-MYSQLPass = ""
-DatabaseName = "atcoder_checker_db"
+config = JSON.parse(File.read(File.dirname(__FILE__) + "/../config.json"))
 
 def url_exists_in_page?( contest_url, target_url )
 	open( target_url ) do |html|
@@ -79,14 +77,22 @@ contest_page_dom = open( contest_url ) do |html|
 	Nokogiri::HTML.parse( html )
 end
 if !url_exists_in_page?( contest_url, AtCoderRootURL ) || contest_page_dom.at( ".insert-participant" ) != nil || contest_page_dom.at( "//a[ @href = '/assignments' ]" ) == nil then
-	exit
+	puts "invalid URL"
+	exit false
 end
 
 contest_name = contest_page_dom.at( "span.contest-name" ).text
 
 puts "Target Contest : " + contest_name
 
-mysql_connection =  Mysql::new( MySQLHost, MySQLUser, MYSQLPass, DatabaseName )
+begin
+	mysql_connection =  Mysql::new( config['mysql']['host'], config['mysql']['user'], config['mysql']['pass'], config['mysql']['dbname'], )
+rescue
+	puts "Database connection error!"
+	exit false 
+end
+
+ret_status = true
 begin
 	mysql_connection.query( "start transaction" )
 
@@ -140,8 +146,11 @@ begin
 rescue
 	puts "Error!"
 	mysql_connection.query( "rollback" )
+	ret_status = false
 else
 	mysql_connection.query( "commit" )
 ensure
 	mysql_connection.close
 end
+
+exit ret_status
