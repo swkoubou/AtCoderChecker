@@ -2,7 +2,7 @@
 	"mysql": {
 		"host": "127.0.0.1",
 		"user": "root",
-		"pass": "giqrc34n",
+		"pass": "",
 		"dbname": "atcoder_checker_db"
 	}
 }
