@@ -17,20 +17,19 @@ class BaseModel{
 
     public function initDb() {
         self::$_db = new PDO(
-            sprintf(
-            'mysql:host=%s;dbname=%s;charset=utf8;',
-            self::$connInfo['host'],
-            self::$connInfo['dbname']
+            sprintf('mysql:host=%s;dbname=%s;charset=utf8;',
+                self::$connInfo['host'],
+                self::$connInfo['dbname']
             ),
-            self::$connInfo['dbuser'],
-            self::$connInfo['password'],
+            self::$connInfo['user'],
+            self::$connInfo['pass'],
             [
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
-            PDO::ATTR_EMULATE_PREPARES => true
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
+                PDO::ATTR_EMULATE_PREPARES => true
             ]
-            );
+        );
     }
 
     public static function setConnectionInfo($connInfo) {

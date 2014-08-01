@@ -14,10 +14,6 @@ class Config {
 /**
  * データベースの設定
  */
-$connInfo = [
-    "host" => "localhost",
-    "dbname" => "atcoder_checker_db",
-    "dbuser" => "root",
-    "password" => "giqrc34n"
-];
-\BaseModel::setConnectionInfo($connInfo);
+$config = json_decode(file_get_contents(__DIR__ . '/../../config.json'), true);
+
+\BaseModel::setConnectionInfo($config['mysql']);
