@@ -4,13 +4,11 @@ require "uri"
 require "open-uri"
 require "nokogiri"
 require "mysql"
+require "JSON"
 
 AtCoderRootURL = "http://atcoder.jp/"
 
-MySQLHost = "127.0.0.1"
-MySQLUser = "root"
-MYSQLPass = ""
-DatabaseName = "atcoder_checker_db"
+config = JSON.parse(File.read(File.dirname(__FILE__) + "/../config.json"))
 
 def url_exists_in_page?( contest_url, target_url )
 	open( target_url ) do |html|
@@ -88,7 +86,7 @@ contest_name = contest_page_dom.at( "span.contest-name" ).text
 puts "Target Contest : " + contest_name
 
 begin
-	mysql_connection =  Mysql::new( MySQLHost, MySQLUser, MYSQLPass, DatabaseName )
+	mysql_connection =  Mysql::new( config['mysql']['host'], config['mysql']['user'], config['mysql']['pass'], config['mysql']['dbname'], )
 rescue
 	puts "Database connection error!"
 	exit false 
