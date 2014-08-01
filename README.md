@@ -18,3 +18,8 @@ Development
 - `crawler`: ã‚¯ãƒ­ãƒ¼ãƒ©ãƒ—ãƒ­ã‚°ãƒ©ãƒ ç”¨ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã§ã™ã€‚Rubyã§é–‹ç™ºã—ã¾ã™ã€‚
 - `at-corder-checker`: Webã§å…¬é–‹ã™ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã§ã™ã€‚å®Ÿã‚µãƒ¼ãƒã§ã¯ã“ã“ã«ã‚·ãƒ³ãƒœãƒªãƒƒã‚¯ãƒªãƒ³ã‚¯ã‚’å¼µã‚Šã¾ã™ã€‚PHP, HTML/CSS, JavaScript ã§é–‹ç™ºã—ã¾ã™ã€‚
 
+### ‰ŠúÝ’è
+
+1. `develop/database_initialize.sql` ‚ðMySQL‚ÅŽÀs‚µAƒf[ƒ^ƒx[ƒX‚ð\’z‚µ‚Ü‚·B
+2. `gem install nokogiri ruby-mysql` ‚ðŽÀs‚µA•K—v‚Èƒ‰ƒCƒuƒ‰ƒŠ‚ðƒCƒ“ƒXƒg[ƒ‹‚µ‚Ü‚·B
+3. `develop/config.json` ‚±‚ÌƒvƒƒWƒFƒNƒg‚Ìƒ‹[ƒg‚ÉƒRƒs[‚µAƒpƒXƒ[ƒh“™A•K—v‚É‰ž‚¶‚Ä•ÒW‚µ‚Ü‚·B
