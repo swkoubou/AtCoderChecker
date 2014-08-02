@@ -3,7 +3,8 @@ AtCorderChecker
 
 　ソフトウェア工房の競技プログラミングプロジェクトで使用されているWebアプリケーションです。  
 　各メンバーのAtCoderコンテストの提出状況を確認できます。  
-　情報の収集はクローラーを用いています。
+　情報の収集はクローラーを走らせてHTMLを解析しています。
+　現在システムは `202.250.66.29/AtCoderChecker/` に置いてあります。
 
 Development
 -----------
@@ -18,10 +19,10 @@ Development
 - `crawler`: クローラプログラム用のディレクトリです。Rubyで開発します。
 - `at-corder-checker`: Webで公開するディレクトリです。実サーバではここにシンボリックリンクを張ります。PHP, HTML/CSS, JavaScript で開発します。
 
-##### masterにmergeしたら、自動的にデブロイされます。
-
 #### 初期設定
 
 1. `develop/database_initialize.sql` をMySQLで実行し、データベースを構築します。
 2. `gem install nokogiri ruby-mysql` を実行し、必要なライブラリをインストールします。
 3. `develop/config.json` をこのプロジェクトのルートにコピーし、パスワード等、必要に応じて編集します。
+
+##### masterにmergeしたら、自動的にデブロイされます。
