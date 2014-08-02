@@ -18,6 +18,8 @@ Development
 - `crawler`: クローラプログラム用のディレクトリです。Rubyで開発します。
 - `at-corder-checker`: Webで公開するディレクトリです。実サーバではここにシンボリックリンクを張ります。PHP, HTML/CSS, JavaScript で開発します。
 
+##### masterにmergeしたら、自動的にデブロイされます。
+
 #### 初期設定
 
 1. `develop/database_initialize.sql` をMySQLで実行し、データベースを構築します。
