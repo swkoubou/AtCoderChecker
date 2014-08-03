@@ -46,6 +46,10 @@ def collect_submissions( submission_page_url, &callback )
 	end
 
 	tbody = submission_page_dom.at( "//span[ @class = 'lang-en' ]/text()[ . = 'Created time' ]/ancestor::table/tbody" )
+	if tbody.nil?
+		puts "Skip : No submissions"
+		return
+	end
 
 	tbody.xpath( "./tr" ).each do |tr|
 		problem_screen_name = tr.at( "./td/a" )[ "href" ].slice( 7 .. -1 )
