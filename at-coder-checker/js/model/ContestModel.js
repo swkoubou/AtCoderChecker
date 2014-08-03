@@ -3,18 +3,34 @@
 
     var ns = util.namespace('swkoubou.atcoderchecker.model'),
         dir = util.getDirectPath('ContestModel.js'),
-        contest_list_url = dir + '../../api/contest.php';
+        contests_url = dir + '../../api/contest.php';
 
+    /**
+     * コンテストモデル
+     *
+     * @returns {swkoubou.atcoderchecker.model.ContestModel}
+     * @constructor
+     */
     ns.ContestModel = function ContestModel() {
         var that = this;
 
+        /**
+         * コンテストリスト
+         *
+         * @type {function():Array | function(*)}
+         */
         that.contests = ko.observableArray();
 
-        that.fetchContest = function () {
+        /**
+         * サーバからコンテストリストを取得する
+         *
+         * @returns {jQuery.Deferred}
+         */
+        that.fetchContests = function () {
             var deferred = $.Deferred();
 
             $.ajax({
-                url: contest_list_url,
+                url: contests_url,
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {

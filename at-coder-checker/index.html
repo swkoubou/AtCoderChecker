@@ -44,21 +44,18 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <!-- ko foreach: users -->
+                    <!-- ko foreach: users_display -->
                     <th class="text-center" data-bind="text: $data"></th>
                     <!-- /ko -->
                 </tr>
             </thead>
-            <tbody data-bind="foreach: problems">
+            <tbody data-bind="foreach: {data: problems, as: 'problem' }">
                 <tr>
-                    <th data-bind="text: assignment + ': ' + name"></th>
-                    <!-- ko foreach: $root.submissions()[problem_id] -->
+                    <th data-bind="text: problem.assignment + ': ' + problem.name"></th>
+                    <!-- ko foreach: {data: $root.users, as: 'user' } -->
 
-                    <!-- ko if: $data -->
-                    <td class="text-center" data-bind="text: status"></td>
-                    <!-- /ko -->
-                    <!-- ko if: $data === null -->
-                    <td class="text-center">-</td>
+                    <!-- ko with: $root.submissions()[problem.problem_id][user.user_id] -->
+                    <td class="text-center" data-bind="text: $data === null ? '-' : status"></td>
                     <!-- /ko -->
 
                     <!-- /ko -->
