@@ -9,8 +9,10 @@ $(function () {
         add_user_view_model = new viewmodel_ns.AddUserViewModel(user_model),
         add_contest_view_model = new viewmodel_ns.AddContestViewModel(contest_model),
         alert_view_model = new viewmodel_ns.AlertViewModel(),
+        loading_view_model = new viewmodel_ns.LoadingViewModel(),
         vm = {
             alert: alert_view_model,
+            loading: loading_view_model,
             addUser: add_user_view_model,
             addContest: add_contest_view_model
         };
@@ -28,6 +30,10 @@ $(function () {
         errorMessage: 'コンテスト登録失敗。'
     }]);
     /*** /アラートの設定 ***/
+
+    // ローディングの設定
+    loading_view_model.wrapDeferredAll(add_user_view_model, ['add']);
+    loading_view_model.wrapDeferredAll(add_contest_view_model, ['add']);
 
     vm.users = user_model.users;
     vm.users_display = ko.observableArray();
@@ -84,12 +90,4 @@ $(function () {
     contest_model.fetchContests();
 
     ko.applyBindings(vm);
-
-    //
-
-//    setTimeout(function () {
-//        vm.current_contest_id(1);
-//        vm.update_current_contest();
-//    }, 100);
-
 });
