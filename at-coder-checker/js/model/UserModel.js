@@ -3,7 +3,7 @@
 
     var ns = util.namespace('swkoubou.atcoderchecker.model'),
         dir = util.getDirectPath('UserModel.js'),
-        url = dir + '../../stub/user.php';
+        url = dir + '../../api/user.php';
 
     ns.UserModel = function UserModel() {
         var that = this;

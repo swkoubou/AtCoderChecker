@@ -4,6 +4,7 @@ $(function () {
     var model_ns = util.namespace('swkoubou.atcoderchecker.model'),
         user_model = new model_ns.UserModel(),
         contest_model = new model_ns.ContestModel(),
+        submission_model = new model_ns.SubmissionModel(),
         vm = {};
 
     vm.users = ko.observableArray();
@@ -18,7 +19,7 @@ $(function () {
         }));
     });
 
-    contest_model.contestList.subscribe(function (contests) {
+    contest_model.contests.subscribe(function (contests) {
         vm.contest_list(contests);
     });
 
@@ -29,9 +30,9 @@ $(function () {
 
         $.when(
             user_model.fetchUsers(),
-            contest_model.fetchContest(vm.current_contest_id())
+            submission_model.fetchSubmission(vm.current_contest_id())
         ).done(function () {
-            var contest = contest_model.lastFetchContest(),
+            var contest = submission_model.lastFetchContest(),
                 users = _.pluck(user_model.users(), 'user_id'),
                 problems = contest.problems,
                 submissions_ary = _.map(contest.problems, function (problem) {
@@ -50,7 +51,7 @@ $(function () {
 
     //
 
-    contest_model.fetchContestList();
+    contest_model.fetchContest();
 
     ko.applyBindings(vm);
 
