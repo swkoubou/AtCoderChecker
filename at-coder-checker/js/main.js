@@ -7,19 +7,27 @@ $(function () {
         contest_model = new model_ns.ContestModel(),
         submission_model = new model_ns.SubmissionModel(),
         add_user_view_model = new viewmodel_ns.AddUserViewModel(user_model),
+        add_contest_view_model = new viewmodel_ns.AddContestViewModel(contest_model),
         alert_view_model = new viewmodel_ns.AlertViewModel(),
         vm = {
+            alert: alert_view_model,
             addUser: add_user_view_model,
-            alert: alert_view_model
+            addContest: add_contest_view_model
         };
 
-    alert_view_model.wrapDeferredAll(add_user_view_model, [
-        {
-            methodName: 'add',
-            successMessage: 'ユーザ登録に成功しました。',
-            errorMessage: 'ユーザ登録に失敗しました！'
-        }
-    ]);
+    /*** アラートの設定 ***/
+    alert_view_model.wrapDeferredAll(add_user_view_model, [{
+        methodName: 'add',
+        successMessage: 'ユーザ登録成功！',
+        errorMessage: 'ユーザ登録失敗。'
+    }]);
+
+    alert_view_model.wrapDeferredAll(add_contest_view_model, [{
+        methodName: 'add',
+        successMessage: 'コンテスト登録成功！',
+        errorMessage: 'コンテスト登録失敗。'
+    }]);
+    /*** /アラートの設定 ***/
 
     vm.users = user_model.users;
     vm.users_display = ko.observableArray();

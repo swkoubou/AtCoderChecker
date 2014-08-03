@@ -43,6 +43,26 @@
             return deferred.promise();
         };
 
+        /**
+         * コンテストを追加する
+         *
+         * @returns {jQuery.Deferred}
+         */
+        that.addContest = function (url) {
+            var deferred = $.Deferred();
+
+            $.ajax({
+                url: contests_url,
+                type: 'post',
+                dataType: 'json',
+                data: { url: url },
+                success: deferred.resolve,
+                error: deferred.reject
+            });
+
+            return deferred.promise();
+        };
+
         return that;
     };
 

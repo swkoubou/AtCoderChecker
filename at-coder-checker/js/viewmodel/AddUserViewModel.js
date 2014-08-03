@@ -4,8 +4,9 @@
     var ns = util.namespace('swkoubou.atcoderchecker.viewmodel');
 
     /**
-     * ユーザモデル
+     * コンテスト追加ViewModel
      *
+     * @param user_model {swkoubou.atcoderchecker.model.UserModel}
      * @returns {swkoubou.atcoderchecker.viewmodel.AddUserViewModel}
      * @constructor
      */
@@ -25,7 +26,6 @@
                     that.userId(null);
                     that.userName(null);
                     that.enrollmentYear(null);
-                    console.log(arguments);
                 });
         };
 

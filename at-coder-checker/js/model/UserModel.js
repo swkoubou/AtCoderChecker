@@ -47,6 +47,7 @@
         /**
          * ユーザを追加する
          *
+         * @returns jQuery.Deferred
          */
         that.addUser = function (user_id, name, enrollment_year) {
             var deferred = $.Deferred();
