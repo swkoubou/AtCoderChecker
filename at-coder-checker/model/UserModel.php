@@ -16,23 +16,25 @@ class UserModel extends BaseModel{
         }
     }
 
-    public function userPost($id,$name,$enrollment_year){
-        try{
-//            if(isset($_POST['id']) && isset($_POST['name'])){
-//                $id=$_POST['id'];
-//                $name=$_POST['name'];
-//            }
-            if(preg_match("/[\s]/",json_encode($id),json_encode($name),json_encode($enrollment_year))){
-                throw new Exception();
-            }
+    public function userPost($user_id, $name, $enrollment_year) {
+        // パラメータチェック
+        if (!$this->validationEnrollmentYear($enrollment_year)) {
+            throw new InvalidArgumentException('invalid enrollment year.');
+        }
 
-            $this->insert(self::TBNAME,['user_id'=>[$id,PDO::PARAM_STR],'name'=>[$name,PDO::PARAM_STR],'enrollment_year'
-            =>[$enrollment_year,PDO::PARAM_INT]]);
-
-            //$Up=$this->inserts(self::TBNAME4,);
+        try {
+            $this->insert(self::TBNAME,[
+                'user_id' => [$user_id, PDO::PARAM_STR],
+                'name' => [$name, PDO::PARAM_STR],
+                'enrollment_year' => [$enrollment_year, PDO::PARAM_INT]
+            ]);
         }catch (Exception $e){
             throw new Exception($e);
         }
+    }
+
+    public function validationEnrollmentYear($enrollment_year) {
+        return preg_match("/^20\\d\\d$/", $enrollment_year);
     }
 }
 ?>
