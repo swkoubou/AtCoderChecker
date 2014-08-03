@@ -25,17 +25,24 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
 
     $contest_model = new ContestModel();
 
-    try {
-        if (isset($_POST['method']) && isset($_POST['conid']) && isset($_POST['conurl']) && isset($_POST['conname'])) {
-            $contest_model->contestPost($_POST['conid'], $_POST['conurl'], $_POST['conname']);
-        }
-    } catch (Exception $e) {
-        echo $e->getMessage();
-        exit();
+    // パラメータチェック
+    if (!isset($_POST['url'])) {
+        http_response_code(400);
+        Http::throwErrorJSON('required params: url');
+        exit;
     }
+
+    try {
+        $contest_model->contestPost($_POST['url']);
+    } catch (Exception $e) {
+        http_response_code(500);
+        Http::throwErrorJSON($e->getMessage());
+        exit;
+    }
+
+    http_response_code(200);
 
 } else {
     http_response_code(405);
     exit;
 }
-?>

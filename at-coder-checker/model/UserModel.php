@@ -35,4 +35,3 @@ class UserModel extends BaseModel{
         return preg_match("/^20\\d\\d$/", $enrollment_year);
     }
 }
-?>
