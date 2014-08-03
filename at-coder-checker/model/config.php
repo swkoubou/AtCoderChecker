@@ -1,6 +1,7 @@
 <?php
 namespace atcoderchecker;
 require_once __DIR__ . "/BaseModel.php";
+
 /**
  * Config Defined
  * コンフィグ定義

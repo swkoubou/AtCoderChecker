@@ -1,12 +1,7 @@
 <?php
 require_once __DIR__ . "/../model/ContestModel.php";
 require_once __DIR__ . "/../model/config.php";
-/**
- * Created by PhpStorm.
- * User: 1422085
- * Date: 14/07/14
- * Time: 11:16
- */
+
 if($_SERVER['REQUEST_METHOD']==="GET"){
     $OutputConGet=new ContestModel();
 
