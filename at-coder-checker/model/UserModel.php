@@ -6,14 +6,12 @@ class UserModel extends BaseModel{
 
     public function userGet(){
         try{
-            $Ug=$this->selects(self::TBNAME);
-            return $Ug->fetchAll();
-            /*while($out=$Ug->fetch(PDO::FETCH_ASSOC)){
-                var_dump($out);//Controllに移す
-            }*/
+            $stmt = $this->selects(self::TBNAME);
         }catch (Exception $e){
             throw new Exception($e);
         }
+
+        return $stmt->fetchAll();
     }
 
     public function userPost($user_id, $name, $enrollment_year) {
