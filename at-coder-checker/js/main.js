@@ -2,10 +2,24 @@ $(function () {
     'use strict';
 
     var model_ns = util.namespace('swkoubou.atcoderchecker.model'),
+        viewmodel_ns = util.namespace('swkoubou.atcoderchecker.viewmodel'),
         user_model = new model_ns.UserModel(),
         contest_model = new model_ns.ContestModel(),
         submission_model = new model_ns.SubmissionModel(),
-        vm = { };
+        add_user_view_model = new viewmodel_ns.AddUserViewModel(user_model),
+        alert_view_model = new viewmodel_ns.AlertViewModel(),
+        vm = {
+            addUser: add_user_view_model,
+            alert: alert_view_model
+        };
+
+    alert_view_model.wrapDeferredAll(add_user_view_model, [
+        {
+            methodName: 'add',
+            successMessage: 'ユーザ登録に成功しました。',
+            errorMessage: 'ユーザ登録に失敗しました！'
+        }
+    ]);
 
     vm.users = user_model.users;
     vm.users_display = ko.observableArray();

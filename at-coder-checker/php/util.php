@@ -138,4 +138,7 @@ class Http {
     public static function throwErrorJSON($message) {
         echo json_encode(["message" => $message], JSON_UNESCAPED_UNICODE);
     }
+    public static function throwOKJSON() {
+        echo json_encode(["message" => "OK"], JSON_UNESCAPED_UNICODE);
+    }
 }

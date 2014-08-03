@@ -44,6 +44,29 @@
             return deferred.promise();
         };
 
+        /**
+         * ユーザを追加する
+         *
+         */
+        that.addUser = function (user_id, name, enrollment_year) {
+            var deferred = $.Deferred();
+
+            $.ajax({
+                url: users_url,
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    user_id: user_id,
+                    name: name,
+                    enrollment_year: enrollment_year
+                },
+                success: deferred.resolve,
+                error: deferred.reject
+            });
+
+            return deferred.promise();
+        };
+
         return that;
     };
 

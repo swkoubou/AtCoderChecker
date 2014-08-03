@@ -46,9 +46,11 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
     }
 
     http_response_code(200);
+    Http::throwOKJSON();
     exit;
 
 } else {
     http_response_code(405);
+    Http::throwErrorJSON("un supported at method type");
     exit;
 }

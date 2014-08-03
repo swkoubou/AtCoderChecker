@@ -38,5 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET"){
     echo json_encode($res, JSON_PRETTY_PRINT);
 
 } else {
+    Http::throwErrorJSON("un supported at method type");
     http_response_code(405);
+    exit;
 }
