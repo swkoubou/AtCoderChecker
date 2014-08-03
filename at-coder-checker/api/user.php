@@ -1,36 +1,44 @@
 <?php
-require_once __DIR__ . "/../model/UserModel.php";
 require_once __DIR__ . "/../model/config.php";
+require_once __DIR__ . "/../model/UserModel.php";
+require_once __DIR__ . "/../php/util.php";
+use util\Http;
 
-if($_SERVER['REQUEST_METHOD']==="GET"){
-    $OutputUserGet=new UserModel();
-    try{
-        $OutputData=$OutputUserGet->userGet();
-        echo json_encode($OutputData);
-    }catch (Exception $e){
-        //echo error_log("err");
-        echo $e->getMessage();
+if ($_SERVER['REQUEST_METHOD'] === "GET") {
+    Http::setTypeJSON();
+    $user_model = new UserModel();
+
+    try {
+        $res = $user_model->userGet();
+    } catch (Exception $e) {
+        http_response_code(500);
+        Http::throwErrorJSON($e->getMessage());
+        exit;
     }
-}
-else if($_SERVER['REQUEST_METHOD']==="POST"){
-    $InputUserPost=new UserModel();
 
-    try{
+    http_response_code(200);
+    echo json_encode($res);
 
-        if( isset($_POST['method']) && isset($_POST['user_id']) && isset($_POST['name'])
-            && isset($_POST['enrollment_year'])){
+} else if ($_SERVER['REQUEST_METHOD'] === "POST") {
+    $InputUserPost = new UserModel();
 
-            $InputUserPost->userPost($_POST['user_id'],$_POST['name'],$_POST['enrollment_year']);
+    try {
+
+        if (isset($_POST['method']) && isset($_POST['user_id']) && isset($_POST['name'])
+            && isset($_POST['enrollment_year'])
+        ) {
+
+            $InputUserPost->userPost($_POST['user_id'], $_POST['name'], $_POST['enrollment_year']);
         }
-    }catch (Exception $e){
+    } catch (Exception $e) {
         echo $e->getMessage();
         exit();
     }
 
     exit();
-}
-else{
-    error_log("err");
-    exit();
+    
+} else {
+    http_response_code(405);
+    exit;
 }
 ?>
