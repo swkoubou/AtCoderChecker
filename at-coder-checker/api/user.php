@@ -35,6 +35,10 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
 
     try  {
         $user_model->userPost($_POST['user_id'], $_POST['name'], $_POST['enrollment_year']);
+    } catch (InvalidArgumentException $e) {
+        http_response_code(400);
+        Http::throwErrorJSON($e->getMessage());
+        exit;
     } catch (Exception $e) {
         http_response_code(500);
         Http::throwErrorJSON($e->getMessage());
