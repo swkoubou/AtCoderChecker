@@ -54,9 +54,11 @@
                     <th data-bind="text: problem.assignment + ': ' + problem.name"></th>
                     <!-- ko foreach: {data: $root.users, as: 'user' } -->
 
-                    <!-- ko with: $root.submissions()[problem.problem_id][user.user_id] -->
-                    <td class="text-center" data-bind="text: $data === null ? '-' : status"></td>
-                    <!-- /ko -->
+                    <td class="text-center" data-bind="
+                    text:($root.submissions() &&
+                          $root.submissions()[problem.problem_id] &&
+                          $root.submissions()[problem.problem_id][user.user_id]) ?
+                          $root.submissions()[problem.problem_id][user.user_id].status : '-'"></td>
 
                     <!-- /ko -->
                 </tr>
