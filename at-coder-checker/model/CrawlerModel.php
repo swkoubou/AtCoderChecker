@@ -22,6 +22,7 @@ class CrawlerModel extends BaseModel {
     public function crawl($url) {
         $now = date("Y-m-d H:i:s");
         exec("echo 'start: $now' 1>>" . self::$crawlerLogPath);
+        exec("echo 'start: $now' 2>>" . self::$crawlerLogPath);
 
         $cmd = Config::$config['proxy'] ? 'export http_proxy=http://' . Config::$config['proxy'] . ';' : '';
         $cmd .= "ruby " . self::$crawlerPath . " $url 1>>" . self::$crawlerLogPath . " 2>>" . self::$crawlerErrorLogPath;
