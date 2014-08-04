@@ -20,6 +20,7 @@ $(function () {
     vm.users = user_model.users;
     vm.users_display = ko.observableArray();
     vm.contest_list = ko.observableArray();
+    vm.current_contest = ko.observable();
     vm.current_contest_id = ko.observable();
     vm.submissions = ko.observableArray();
     vm.problems = ko.observable();
@@ -48,15 +49,23 @@ $(function () {
             user_model.fetchUsers(),
             submission_model.fetchSubmission(vm.current_contest_id())
         ).done(function () {
-            var contest = submission_model.lastFetchSubmission(),
+            var fetched_submission = submission_model.lastFetchSubmission(),
                 users = _.pluck(user_model.users(), 'user_id'),
-                problems = contest.problems,
+                problems = fetched_submission.problems,
+                contest = _.where(contest_model.contests(), { contest_id: fetched_submission.contest_id })[0],
                 // 表示用にサブミッションリストを整形する。
-                submissions_ary = _.map(contest.problems, function (problem) {
+                submissions_ary = _.map(fetched_submission.problems, function (problem) {
                     var submissions = _.indexBy(problem.submissions, 'user_id');
 
                     return _.object(users, _.map(users, function (user) {
-                        return submissions[user] ? submissions[user] : null;
+                        var submission = submissions[user];
+                        if (!submission) {
+                            return null;
+                        }
+
+                        submission.submission_url = contest.url + '/submissions/' + submission.submission_id;
+
+                        return submissions[user];
                     }));
                 }),
                 // submissions[問題ID][ユーザID] = サブミッションデータ
@@ -121,4 +130,6 @@ $(function () {
     contest_model.fetchContests();
 
     ko.applyBindings(vm);
+
+    setTimeout(function () { vm.current_contest_id(13); }, 100);
 });

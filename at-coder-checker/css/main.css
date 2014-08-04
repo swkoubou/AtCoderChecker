@@ -1,0 +1,39 @@
+.title {
+    margin-bottom: 20px;
+}
+
+.contest-list-wrap {
+    margin-bottom: 10px;
+}
+
+@media (min-width: 768px){
+    .container-fluid {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+}
+
+#btn-area {
+    margin-bottom: 20px;
+}
+
+.submission {
+    display: table-cell !important;
+    vertical-align: middle !important;
+}
+
+.submission-status {
+    font-size: 20px;
+}
+
+.submission-score {
+    font-size: 14px;
+}
+
+.submission-language {
+    font-size: 10px;
+}
+
+.submission-item {
+    display: block;
+}

@@ -5,34 +5,8 @@
     <title>AtCoderChecker｜ソフトウェア工房</title>
     <link rel="stylesheet" href="plugin/bootstrap/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/alert.css"/>
-    <style>
-        .title {
-            margin-bottom: 20px;
-        }
-
-        .contest-list-wrap {
-            margin-bottom: 10px;
-        }
-
-        @media (min-width: 768px){
-            .container-fluid {
-                margin-left: 15px;
-                margin-right: 15px;
-            }
-        }
-
-        .loading {
-            position: fixed;
-            left: 50%;
-            top: 30%;
-            margin-left: -64px;
-            z-index: 10000;
-        }
-
-        #btn-area {
-            margin-bottom: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="css/loading.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
 </head>
 <body>
 
@@ -70,14 +44,28 @@
             </thead>
             <tbody data-bind="foreach: {data: problems, as: 'problem' }">
                 <tr>
-                    <th data-bind="text: problem.assignment + ': ' + problem.name"></th>
+                    <th class="submission" data-bind="text: problem.assignment + ': ' + problem.name"></th>
                     <!-- ko foreach: {data: $root.users, as: 'user' } -->
 
-                    <td class="text-center" data-bind="
-                    text:($root.submissions() &&
-                          $root.submissions()[problem.problem_id] &&
-                          $root.submissions()[problem.problem_id][user.user_id]) ?
-                          $root.submissions()[problem.problem_id][user.user_id].status : '-'"></td>
+                    <!--http://arc027.contest.atcoder.jp/submissions/207373-->
+                    <td class="text-center">
+                        <!-- ko if: $root.submissions() &&
+                                    $root.submissions()[problem.problem_id] &&
+                                    $root.submissions()[problem.problem_id][user.user_id] -->
+                        <!-- ko with: $root.submissions()[problem.problem_id][user.user_id] -->
+                        <a class="submission-item" target="_blank" data-bind="attr: { href: submission_url }">
+                            <span class="submission-status" data-bind="text: status"></span><br>
+                            <span class="submission-score" data-bind="text: score"></span><br>
+                            <span class="submission-language" data-bind="text: language"></span>
+                        </a>
+                        <!-- /ko -->
+                        <!-- /ko -->
+                        <!-- ko ifnot: $root.submissions() &&
+                                    $root.submissions()[problem.problem_id] &&
+                                    $root.submissions()[problem.problem_id][user.user_id] -->
+                        -
+                        <!-- /ko -->
+                    </td>
 
                     <!-- /ko -->
                 </tr>

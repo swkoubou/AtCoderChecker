@@ -1,0 +1,7 @@
+.loading {
+    position: fixed;
+    left: 50%;
+    top: 30%;
+    margin-left: -64px;
+    z-index: 10000;
+}
