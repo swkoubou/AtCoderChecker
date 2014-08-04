@@ -49,10 +49,12 @@
             </thead>
             <tbody data-bind="foreach: {data: problems, as: 'problem' }">
                 <tr>
-                    <th class="submission" data-bind="text: problem.assignment + ': ' + problem.name"></th>
-                    <!-- ko foreach: {data: $root.users, as: 'user' } -->
+                    <th class="submission">
+                        <a target="_blank" data-bind="text: displayName, attr: { href: url }"></a>
+                    </th>
 
-                    <!--http://arc027.contest.atcoder.jp/submissions/207373-->
+                    <!-- ko foreach: { data: $root.users, as: 'user' } -->
+
                     <td class="text-center">
                         <!-- ko if: $root.submissions() &&
                                     $root.submissions()[problem.problem_id] &&

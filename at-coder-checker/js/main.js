@@ -85,6 +85,13 @@ $(function () {
                 submissions = _.object(_.pluck(problems, 'problem_id'), submissions_ary);
 
             vm.submissions(submissions);
+
+            // problemsのリンク生成
+            _.each(problems, function (problem) {
+                problem.displayName = problem.assignment + ': ' + problem.name;
+                problem.url = contest.url + '/tasks/' + problem.screen_name;
+            });
+
             vm.problems(problems);
         });
     };
