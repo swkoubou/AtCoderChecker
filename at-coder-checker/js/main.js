@@ -17,24 +17,6 @@ $(function () {
             addContest: add_contest_view_model
         };
 
-    /*** アラートの設定 ***/
-    alert_view_model.wrapDeferredAll(add_user_view_model, [{
-        methodName: 'add',
-        successMessage: 'ユーザ登録成功！',
-        errorMessage: 'ユーザ登録失敗。'
-    }]);
-
-    alert_view_model.wrapDeferredAll(add_contest_view_model, [{
-        methodName: 'add',
-        successMessage: 'コンテスト登録成功！',
-        errorMessage: 'コンテスト登録失敗。'
-    }]);
-    /*** /アラートの設定 ***/
-
-    // ローディングの設定
-    loading_view_model.wrapDeferredAll(add_user_view_model, ['add']);
-    loading_view_model.wrapDeferredAll(add_contest_view_model, ['add']);
-
     vm.users = user_model.users;
     vm.users_display = ko.observableArray();
     vm.contest_list = ko.observableArray();
@@ -58,10 +40,10 @@ $(function () {
      */
     vm.update_current_contest = function () {
         if (!vm.current_contest_id()) {
-            return;
+            return $.Deferred().reject();
         }
 
-        $.when(
+        return $.when(
             // 他の人がユーザリストを更新した可能性もあるため、ユーザリストも一緒に更新する
             user_model.fetchUsers(),
             submission_model.fetchSubmission(vm.current_contest_id())
@@ -84,6 +66,25 @@ $(function () {
             vm.problems(problems);
         });
     };
+
+    /*** アラートの設定 ***/
+    alert_view_model.wrapDeferredAll(add_user_view_model, [{
+        methodName: 'add',
+        successMessage: 'ユーザ登録成功！',
+        errorMessage: 'ユーザ登録失敗。'
+    }]);
+
+    alert_view_model.wrapDeferredAll(add_contest_view_model, [{
+        methodName: 'add',
+        successMessage: 'コンテスト登録成功！',
+        errorMessage: 'コンテスト登録失敗。'
+    }]);
+    /*** /アラートの設定 ***/
+
+    // ローディングの設定
+    loading_view_model.wrapDeferredAll(add_user_view_model, ['add']);
+    loading_view_model.wrapDeferredAll(add_contest_view_model, ['add']);
+    loading_view_model.wrapDeferredAll(vm, ['update_current_contest']);
 
     //
 
