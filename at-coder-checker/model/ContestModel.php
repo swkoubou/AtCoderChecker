@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . "/BaseModel.php";
-require_once __DIR__ . "/config.php";
-use atcoderchecker\Config;
+require_once __DIR__ . "/CrawlerModel.php";
 
 class ContestModel extends BaseModel {
     const TBNAME = "contest";
@@ -17,11 +16,23 @@ class ContestModel extends BaseModel {
     }
 
     public function contestPost($url) {
-        exec("ruby " . Config::$crawlerPath . " $url", $out, $res);
+        $crawler_model = new CrawlerModel();
 
-        if ($res) {
-            throw new Exception('ruby script error');
+        try {
+            $crawler_model->crawl($url);
+        } catch (Exception $e) {
+            throw new Exception($e);
         }
+    }
+
+    public function getContest($contest_id) {
+        try {
+            $stmt = $this->select(self::TBNAME, ['contest_id' => $contest_id]);
+        } catch (Exception $e) {
+            throw new Exception($e);
+        }
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
 }

@@ -7,14 +7,7 @@ require_once __DIR__ . "/BaseModel.php";
  * コンフィグ定義
  */
 
-class Config {
-    // クローラの最小待機時間
-    const CRAWL_INTERVAL_SECOND = 600;
-
-    public static $crawlerPath;
-}
-
-Config::$crawlerPath = __DIR__ . '/../../crawler/scraper.rb';
+class Config { }
 
 /**
  * データベースの設定

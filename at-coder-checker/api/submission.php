@@ -22,11 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] === "GET"){
 
     $m_submission = new SubmissionModel();
 
-    // 一定時間経っていたら、クローラを回してDBを更新する
-    
-
     // サブミッションを取得する
     try {
+        $m_submission->crawl($_GET['contest_id']);
         $res["problems"] = $m_submission->submissionGet($_GET["contest_id"]);
     } catch (Exception $e) {
         http_response_code(500);

@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . "/BaseModel.php";
-require_once __DIR__ . "/config.php";
+require_once __DIR__ . "/ContestModel.php";
+require_once __DIR__ . "/CrawlerModel.php";
 
 class SubmissionModel extends BaseModel{
     public function submissionGet($contest_id){
@@ -28,18 +29,48 @@ class SubmissionModel extends BaseModel{
     }
 
     public function needCrawl($contest_id) {
-        // 時間見る
-        return true;
+        $contest_model = new ContestModel();
+
+        try {
+            $contest = $contest_model->getContest($contest_id);
+        } catch (Exception $e) {
+            throw new Exception($e);
+        }
+
+        $date = date("Y-m-d h:i:s", strtotime("- " . CrawlerModel::CRAWL_INTERVAL_SECOND . "seconds"));
+
+        return $contest['updated_at'] < $date;
     }
 
     public function crawl($contest_id) {
-        // トランザクション begin
+        $contest_model = new ContestModel();
 
-        // 時間を見て
+        try {
+            $contest = $contest_model->getContest($contest_id);
+        } catch (Exception $e) {
+            throw new Exception($e);
+        }
+
+        // トランザクション
+        $this->db->beginTransaction();
+
+        // 更新の必要がなかったら終了
+        if (!$this->needCrawl($contest_id)) {
+            $this->db->rollback();
+            return false;
+        };
 
         // クロールする
+        $crawler_model = new CrawlerModel();
 
-        // トランザクション commit
+        try {
+            $crawler_model->crawl($contest['url']);
+        } catch (Exception $e) {
+            throw new Exception($e);
+        }
+
+        $this->db->commit();
+        // /トランザクション
 
         return true;
     }
