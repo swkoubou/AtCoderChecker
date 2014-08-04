@@ -69,19 +69,22 @@ $(function () {
                 contest = vm.currentContest(),
                 // 表示用にサブミッションリストを整形する
                 submissions_ary = _.map(fetched_submission.problems, function (problem) {
-                    var submissions = _.indexBy(problem.submissions, 'user_id');
-
                     return _.object(users, _.map(users, function (user) {
-                        var submission = submissions[user];
+                        var user_submission = _.where(problem.submissions, { user_id: user }),
+                            a_submission;
 
-                        if (!submission) {
+                        if (!user_submission.length) {
                             return null;
                         }
 
-                        // 提出のリンクURLを作成
-                        submission.submission_url = contest.url + '/submissions/' + submission.submission_id;
+                        a_submission = user_submission.sort(function (a, b) {
+                            return a.score !== b.score ? a.score < b.score : a.submission_id < b.submission_id;
+                        })[0];
 
-                        return submissions[user];
+                        // 提出のリンクURLを作成
+                        a_submission.submission_url = contest.url + '/submissions/' + a_submission.submission_id;
+
+                        return a_submission;
                     }));
                 }),
                 // submissions[問題ID][ユーザID] = サブミッションデータ
