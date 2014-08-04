@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . "/BaseModel.php";
 require_once __DIR__ . "/config.php";
+use atcoderchecker\Config;
 
 class CrawlerModel extends BaseModel {
     // クローラの最小待機時間
@@ -22,7 +23,8 @@ class CrawlerModel extends BaseModel {
         $now = date("Y-m-d H:i:s");
         exec("echo 'start: $now' 1>>" . self::$crawlerLogPath);
 
-        $cmd = "ruby " . self::$crawlerPath . " $url 1>>" . self::$crawlerLogPath . " 2>>" . self::$crawlerErrorLogPath;
+	$cmd = Config::$config['proxy'] ? 'export http_proxy=http://' . Config::$config['proxy'] . ';' : '';
+        $cmd .= "ruby " . self::$crawlerPath . " $url 1>>" . self::$crawlerLogPath . " 2>>" . self::$crawlerErrorLogPath;
         exec($cmd, $out, $res);
 
         if ($res) {

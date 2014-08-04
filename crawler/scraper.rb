@@ -4,7 +4,7 @@ require "uri"
 require "open-uri"
 require "nokogiri"
 require "mysql"
-require "JSON"
+require "json"
 
 AtCoderRootURL = "http://atcoder.jp/"
 
