@@ -28,6 +28,10 @@
             margin-left: -64px;
             z-index: 10000;
         }
+
+        #btn-area {
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -81,7 +85,7 @@
         </table>
     </div>
 
-    <div>
+    <div id="btn-area">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-user">
             <span class="glyphicon glyphicon-user"> ユーザ追加</span>
         </button>
@@ -89,6 +93,18 @@
         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-contest">
             <span class="glyphicon glyphicon-tower"> コンテスト追加</span>
         </button>
+    </div>
+
+    <div class="well">
+        <h3>Hello!</h3>
+        <p>
+            ソフトウェア工房 競技プログラミング用の支援システムです。<br>
+            <a href="http://atcoder.jp/" target="_blank">AtCoder</a> において、登録されたユーザのサブミッションデータを集計して表示します。<br>
+            集計はごりごりクローラして行っていますが、最低10分間隔でしか集計しないようになっているので、たぶん大丈夫。
+        </p>
+        <p>
+            開発はGitHubで行っています。リポジトリは<a href="https://github.com/swkoubou/AtCoderChecker" target="_blank">ここ</a>。<br>
+        </p>
     </div>
 </div>
 
