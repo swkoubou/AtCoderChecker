@@ -120,16 +120,19 @@
                             <label for="add-user-id">ユーザID</label>
                             <input type="text" class="form-control" id="add-user-id" placeholder="Enter User ID"
                                     data-bind="value: addUser.userId">
+                            <p class="help-block">※ AtCoderの<span class="alert-success">ユーザID</span>を入力してください。<span class="alert-danger">ユーザ名ではない</span>ことに注意してください。</p>
                         </div>
                         <div class="form-group">
                             <label for="add-user-name">名前</label>
                             <input type="text" class="form-control" id="add-user-name" placeholder="Enter User Name"
                                    data-bind="value: addUser.userName">
+                            <p class="help-block">※ 個人が特定できる表示用の名前を入力してください。</p>
                         </div>
                         <div class="form-group">
                             <label for="add-enrollment-year">入学年度（西暦）</label>
                             <input type="number" class="form-control" id="add-enrollment-year" placeholder="Enter Enrollment Year"
                                    data-bind="value: addUser.enrollmentYear">
+                            <p class="help-block">※ 入学年度を西暦で入力してください。（例：2014）</p>
                         </div>
                     </div>
                 </div>
@@ -159,6 +162,7 @@
                                 <label for="add-contest-url">追加するコンテストURL</label>
                                 <input type="url" class="form-control" id="add-contest-url" placeholder="Enter Contest URL"
                                         data-bind="value: addContest.url">
+                                <p class="help-block">※ AtCoderで開かれているコンテストのURLを省略せずに入力してください。</p>
                             </div>
                         </div>
                     </div>
