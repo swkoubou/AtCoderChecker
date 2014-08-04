@@ -14,8 +14,8 @@ class CrawlerModel extends BaseModel {
         parent::__construct();
 
         self::$crawlerPath = __DIR__ . '/../../crawler/scraper.rb';
-        self::$crawlerLogPath = __DIR__ . '/../../crawler/scrapper_log.txt';
-        self::$crawlerErrorLogPath = __DIR__ . '/../../crawler/scrapper_error_log.txt';
+        self::$crawlerLogPath = __DIR__ . '/../../crawler/scraper_log.txt';
+        self::$crawlerErrorLogPath = __DIR__ . '/../../crawler/scraper_error_log.txt';
     }
 
     public function crawl($url) {

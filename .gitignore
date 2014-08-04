@@ -2,3 +2,5 @@
 *.swp
 *.idea/
 config.json
+crawler/scraper_log.txt
+crawler/scraper_error_log.txt
