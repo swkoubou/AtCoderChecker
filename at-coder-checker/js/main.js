@@ -67,12 +67,35 @@ $(function () {
         });
     };
 
+    // 選択しているコンテストが変更されたら、コンテストを更新
+    vm.current_contest_id.subscribe(function () {
+        vm.update_current_contest();
+    });
+
     // ユーザ追加に成功したら、現在のコンテストも更新
     (function (f) {
         add_user_view_model.add = function () {
             return f.apply(this, arguments).then(vm.update_current_contest);
         };
     }(add_user_view_model.add));
+
+    // コンテスト追加に成功したら、コンテストリストを更新して、そのコンテストに変える
+    (function (f) {
+        add_contest_view_model.add = function () {
+            var url = add_contest_view_model.url();
+
+            return f.apply(this, arguments)
+                .then(contest_model.fetchContests)
+                .then(function () {
+                    var contests = contest_model.contests(),
+                        new_contest = _.where(contests, { url:  url });
+
+                    if (new_contest.length) {
+                        vm.current_contest_id(new_contest[0].contest_id);
+                    }
+                });
+        };
+    }(add_contest_view_model.add));
 
     /*** アラートの設定 ***/
     alert_view_model.wrapDeferredAll(add_user_view_model, [{
