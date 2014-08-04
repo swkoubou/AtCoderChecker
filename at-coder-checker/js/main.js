@@ -17,7 +17,7 @@ $(function () {
             addContest: add_contest_view_model
         };
 
-    vm.users = user_model.users;
+    vm.users = ko.observableArray();
     vm.users_display = ko.observableArray();
     vm.contestList = ko.observableArray();
     vm.currentContest = ko.observable();
@@ -25,10 +25,17 @@ $(function () {
     vm.submissions = ko.observableArray();
     vm.problems = ko.observable();
 
+    // ユーザリストが更新されたら、整形・ソートして、表示用にVMにぶち込む
     user_model.users.subscribe(function (users) {
+        users = users.sort(function (a, b) {
+            return a.enrollment_year === b.enrollment_year ? a.name > b.name : a.enrollment_year > b.enrollment_year;
+        });
+
         vm.users_display(users.map(function (user) {
             return user.name + '(' + user.user_id + ')';
         }));
+
+        vm.users(users);
     });
 
     contest_model.contests.subscribe(function (contests) {
