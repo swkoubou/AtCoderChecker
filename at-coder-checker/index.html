@@ -24,16 +24,16 @@
     <div class="contest-list-wrap">
         <label for="contest-list" class="sr-only">コンテストリスト</label>
         <select id="contest-list" class="form-control"
-                data-bind="options: contest_list,
+                data-bind="options: contestList,
                        optionsText: 'name',
                        optionsValue: 'contest_id',
                        optionsCaption: 'Select contest...',
-                       value: current_contest_id,
-                       event: { change: update_current_contest }"></select>
+                       value: currentContestId,
+                       event: { change: updateCurrentContest }"></select>
     </div>
 
-    <h3 data-bind="if: current_contest()">
-        <a target="_blank" data-bind="text: current_contest().name, attr: { href: current_contest().url }"></a>
+    <h3 data-bind="if: currentContest()">
+        <a target="_blank" data-bind="text: currentContest().name, attr: { href: currentContest().url }"></a>
     </h3>
 
     <div class="table-responsive">
