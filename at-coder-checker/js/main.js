@@ -153,7 +153,7 @@ $(function () {
     loading_view_model.wrapDeferredAll(vm, ['updateCurrentContest']);
     /*** /ローディングの設定 ***/
 
-    /*** 以下初期動作 ***/
+    /***** 以下初期動作 *****/
 
     loading_view_model.isLoading(true);
     contest_model.fetchContests().always(function () {
