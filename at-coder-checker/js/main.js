@@ -38,6 +38,7 @@ $(function () {
         vm.users(users);
     });
 
+    // コンテストリストが更新されたら、URLでソートしてVMにぶち込む
     contest_model.contests.subscribe(function (contests) {
         vm.contestList(contests.sort(function (a, b) { return a.url > b.url; }));
     });
@@ -48,10 +49,7 @@ $(function () {
             _.where(contest_model.contests(), { contest_id: contest_id })[0] : null);
     });
 
-    /**
-     * 現在のコンテストを更新する
-     *
-     */
+    // 現在のコンテストを更新する
     vm.updateCurrentContest = function () {
         if (!vm.currentContestId()) {
             return $.Deferred().reject();
@@ -146,8 +144,10 @@ $(function () {
     loading_view_model.wrapDeferredAll(vm, ['updateCurrentContest']);
 
     //
-
-    contest_model.fetchContests();
+    loading_view_model.isLoading(true);
+    contest_model.fetchContests().always(function () {
+        loading_view_model.isLoading(false);
+    });
 
     ko.applyBindings(vm);
 });
