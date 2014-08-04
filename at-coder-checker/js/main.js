@@ -33,14 +33,19 @@ $(function () {
 
     // ユーザリストが更新されたら、整形・ソートして、表示用にVMにぶち込む
     user_model.users.subscribe(function (users) {
+        var contest = vm.currentContest();
+
         // 入学年度, 名前で昇順にソート
         users = users.sort(function (a, b) {
             return a.enrollment_year === b.enrollment_year ? a.name > b.name : a.enrollment_year > b.enrollment_year;
         });
 
-        // ユーザ表示名の決定
         users.forEach(function (user) {
+            // ユーザ表示名の決定
             user.displayName = user.name + '(' + user.user_id + ')';
+
+            // ユーザ毎の提出リンクを作成
+            user.submissionUrl = contest ? contest.url + 'submissions/all?user_screen_name=' + user.user_id : null;
         });
 
         vm.users(users);
@@ -92,7 +97,7 @@ $(function () {
 
             vm.submissions(submissions);
 
-            // 問題のリンクURLを作成
+            // 問題のリンクURLと表示名の作成
             _.each(problems, function (problem) {
                 problem.displayName = problem.assignment + ': ' + problem.name;
                 problem.url = contest.url + '/tasks/' + problem.screen_name;

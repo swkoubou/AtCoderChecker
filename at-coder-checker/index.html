@@ -51,7 +51,9 @@
             </thead>
             <tbody data-bind="foreach: { data: $root.users, as: 'user' }">
                 <tr>
-                    <th class="text-center user-name" data-bind="text: user.displayName"></th>
+                    <th class="text-center user-name">
+                        <a target="_blank" data-bind="text: user.displayName, attr: { href: submissionUrl }"></a>
+                    </th>
 
                     <!-- ko foreach: { data: $root.problems, as: 'problem' } -->
 
