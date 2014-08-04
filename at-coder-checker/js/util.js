@@ -32,7 +32,7 @@
          * HTTP.GETクエリーのパーサー
          *
          * @param query ?から始まるパースする文字列(e.g. window.location.search)
-         * @returns {{}}
+         * @returns {Object}
          */
         parseGetQuery: function (query) {
             var result = {},
@@ -59,7 +59,7 @@
          *
          * @param ns
          * @param init
-         * @returns {*[]}
+         * @returns {Array}
          */
         initArray: function (ns, init) {
             var x = ns[0],
