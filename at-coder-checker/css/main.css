@@ -28,6 +28,10 @@
 }
 
 .submission {
+    text-align: center;
+}
+
+.user-name {
     display: table-cell !important;
     vertical-align: middle !important;
 }

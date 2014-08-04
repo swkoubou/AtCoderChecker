@@ -42,18 +42,18 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <!-- ko foreach: usersDisplay -->
-                    <th class="text-center" data-bind="text: $data"></th>
-                    <!-- /ko -->
-                </tr>
-            </thead>
-            <tbody data-bind="foreach: {data: problems, as: 'problem' }">
-                <tr>
+                    <!-- ko foreach: { data: problems } -->
                     <th class="submission">
                         <a target="_blank" data-bind="text: displayName, attr: { href: url }"></a>
                     </th>
+                    <!-- /ko -->
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: { data: $root.users, as: 'user' }">
+                <tr>
+                    <th class="text-center user-name" data-bind="text: user.displayName"></th>
 
-                    <!-- ko foreach: { data: $root.users, as: 'user' } -->
+                    <!-- ko foreach: { data: $root.problems, as: 'problem' } -->
 
                     <td class="text-center">
                         <!-- ko if: $root.submissions() &&

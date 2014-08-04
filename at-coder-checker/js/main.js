@@ -18,7 +18,6 @@ $(function () {
         };
 
     vm.users = ko.observableArray();
-    vm.usersDisplay = ko.observableArray();
     vm.contestList = ko.observableArray();
     vm.currentContestId = ko.observable();
     vm.submissions = ko.observableArray();
@@ -40,9 +39,9 @@ $(function () {
         });
 
         // ユーザ表示名の決定
-        vm.usersDisplay(users.map(function (user) {
-            return user.name + '(' + user.user_id + ')';
-        }));
+        users.forEach(function (user) {
+            user.displayName = user.name + '(' + user.user_id + ')';
+        });
 
         vm.users(users);
     });
