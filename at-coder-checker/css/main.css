@@ -21,6 +21,12 @@
     color: inherit;
 }
 
+.contest-name .updated-at {
+    margin-left: 10px;
+    color: darkgrey;
+    font-size: 14px;
+}
+
 .submission {
     display: table-cell !important;
     vertical-align: middle !important;

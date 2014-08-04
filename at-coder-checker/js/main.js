@@ -32,7 +32,7 @@ $(function () {
     });
 
     contest_model.contests.subscribe(function (contests) {
-        vm.contestList(contests);
+        vm.contestList(contests.sort(function (a, b) { return a.url > b.url; }));
     });
 
     // current_contest_idに追従してcurrent_contestも更新

@@ -34,6 +34,7 @@
 
     <h3 data-bind="if: currentContest()" class="contest-name">
         <a target="_blank" data-bind="text: currentContest().name, attr: { href: currentContest().url }"></a>
+        <span class="updated-at" data-bind="text: 'last updated time:' + currentContest().updated_at"></span>
     </h3>
 
     <div class="table-responsive">
