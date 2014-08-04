@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
     }
 
     http_response_code(200);
-    echo json_encode($res);
+    echo json_encode($res, JSON_NUMERIC_CHECK);
 
 } else if ($_SERVER['REQUEST_METHOD'] === "POST") {
     Http::setTypeJSON();

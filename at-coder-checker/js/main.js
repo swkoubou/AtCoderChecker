@@ -37,7 +37,7 @@ $(function () {
 
         // 入学年度, 名前で昇順にソート
         users = users.sort(function (a, b) {
-            return a.enrollment_year === b.enrollment_year ? a.name > b.name : a.enrollment_year > b.enrollment_year;
+            return (a.enrollment_year === b.enrollment_year ? a.name > b.name : a.enrollment_year > b.enrollment_year) ? 1 : -1;
         });
 
         users.forEach(function (user) {
@@ -54,7 +54,7 @@ $(function () {
     // コンテストリストが更新されたら、URLでソートしてVMにぶち込む
     contest_model.contests.subscribe(function (contests) {
         // URLで昇順にソート
-        vm.contestList(contests.sort(function (a, b) { return a.url > b.url; }));
+        vm.contestList(contests.sort(function (a, b) { return a.url > b.url ? 1 : -1; }));
     });
 
     // 現在のコンテストを更新する
@@ -82,8 +82,9 @@ $(function () {
                             return null;
                         }
 
+                        // 最もスコアが高く、最も最後に提出したものを表示用にする
                         a_submission = user_submission.sort(function (a, b) {
-                            return a.score !== b.score ? a.score < b.score : a.submission_id < b.submission_id;
+                            return (a.score !== b.score ? a.score < b.score : a.submission_id < b.submission_id) ? 1 : -1;
                         })[0];
 
                         // 提出のリンクURLを作成
