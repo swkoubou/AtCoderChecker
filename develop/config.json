@@ -4,5 +4,6 @@
 		"user": "root",
 		"pass": "",
 		"dbname": "atcoder_checker_db"
-	}
+	},
+    "proxy": null
 }

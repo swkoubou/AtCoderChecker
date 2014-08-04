@@ -1,5 +1,7 @@
 <?php
 require_once __DIR__ . "/BaseModel.php";
+require_once __DIR__ . "/config.php";
+use atcoderchecker\Config;
 
 class UserModel extends BaseModel{
     const TBNAME = "user";
@@ -49,7 +51,7 @@ class UserModel extends BaseModel{
         }
 
         // AtCoderに登録されているユーザ名か
-        $content = file_get_contents(self::USER_PROFILE_URL . $user_id);
+        $content = file_get_contents(self::USER_PROFILE_URL . $user_id, null, Config::$proxyContent);
         if (preg_match("/<h1>404<\\/h1>/", $content)) {
             return false;
         }
