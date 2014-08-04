@@ -26,7 +26,6 @@ class CrawlerModel extends BaseModel {
         exec($cmd, $out, $res);
 
         if ($res) {
-            $this->db->rollback();
             throw new Exception('ruby script error');
         }
     }
