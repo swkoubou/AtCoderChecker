@@ -20,10 +20,16 @@ $(function () {
     vm.users = ko.observableArray();
     vm.users_display = ko.observableArray();
     vm.contestList = ko.observableArray();
-    vm.currentContest = ko.observable();
     vm.currentContestId = ko.observable();
     vm.submissions = ko.observableArray();
     vm.problems = ko.observable();
+
+    // 現在のコンテスト
+    vm.currentContest = ko.computed(function () {
+        var contest_id = vm.currentContestId(),  // 購読
+            contests = contest_model.contests(); // 購読
+        return contest_id ? _.where(contests, { contest_id: contest_id })[0] : null;
+    });
 
     // ユーザリストが更新されたら、整形・ソートして、表示用にVMにぶち込む
     user_model.users.subscribe(function (users) {
@@ -43,12 +49,6 @@ $(function () {
         vm.contestList(contests.sort(function (a, b) { return a.url > b.url; }));
     });
 
-    // current_contest_idに追従してcurrent_contestも更新
-    vm.currentContestId.subscribe(function (contest_id) {
-        vm.currentContest(contest_id ?
-            _.where(contest_model.contests(), { contest_id: contest_id })[0] : null);
-    });
-
     // 現在のコンテストを更新する
     vm.updateCurrentContest = function () {
         if (!vm.currentContestId()) {
@@ -59,7 +59,7 @@ $(function () {
             // 他の人がユーザリストを更新した可能性もあるため、ユーザリストも一緒に更新する
             user_model.fetchUsers(),
             submission_model.fetchSubmission(vm.currentContestId())
-        ).done(function () {
+        ).then(function () {
             var fetched_submission = submission_model.lastFetchSubmission(),
                 users = _.pluck(user_model.users(), 'user_id'),
                 problems = fetched_submission.problems,
@@ -91,6 +91,9 @@ $(function () {
             });
 
             vm.problems(problems);
+
+            // updated_timeが更新されてるから取得しなおす
+            contest_model.fetchContests();
         });
     };
 
@@ -144,6 +147,7 @@ $(function () {
     loading_view_model.wrapDeferredAll(vm, ['updateCurrentContest']);
 
     //
+
     loading_view_model.isLoading(true);
     contest_model.fetchContests().always(function () {
         loading_view_model.isLoading(false);
