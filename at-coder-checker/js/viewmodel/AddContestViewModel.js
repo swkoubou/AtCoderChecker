@@ -13,8 +13,18 @@
     ns.AddContestViewModel = function AddContestViewModel(contest_model) {
         var that = this;
 
+        /**
+         * 追加するコンテストURL
+         *
+         * @type {function():string | function(string)}
+         */
         that.url = ko.observable();
 
+        /**
+         * コンテストを追加する
+         *
+         * @returns {jQuery.Deferred}
+         */
         that.add = function () {
             return contest_model.addContest(that.url())
                 .then(function () {

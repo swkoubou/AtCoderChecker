@@ -28,16 +28,19 @@ $(function () {
     vm.currentContest = ko.computed(function () {
         var contest_id = vm.currentContestId(),  // 購読
             contests = contest_model.contests(); // 購読
+
         return contest_id ? _.where(contests, { contest_id: contest_id })[0] : null;
     });
 
     // ユーザリストが更新されたら、整形・ソートして、表示用にVMにぶち込む
     user_model.users.subscribe(function (users) {
+        // 入学年度, 名前で昇順にソート
         users = users.sort(function (a, b) {
             return a.enrollment_year === b.enrollment_year ? a.name > b.name : a.enrollment_year > b.enrollment_year;
         });
 
-        vm.users_display(users.map(function (user) {
+        // ユーザ表示名の決定
+        vm.usersDisplay(users.map(function (user) {
             return user.name + '(' + user.user_id + ')';
         }));
 
@@ -46,6 +49,7 @@ $(function () {
 
     // コンテストリストが更新されたら、URLでソートしてVMにぶち込む
     contest_model.contests.subscribe(function (contests) {
+        // URLで昇順にソート
         vm.contestList(contests.sort(function (a, b) { return a.url > b.url; }));
     });
 
@@ -64,16 +68,18 @@ $(function () {
                 users = _.pluck(user_model.users(), 'user_id'),
                 problems = fetched_submission.problems,
                 contest = vm.currentContest(),
-                // 表示用にサブミッションリストを整形する。
+                // 表示用にサブミッションリストを整形する
                 submissions_ary = _.map(fetched_submission.problems, function (problem) {
                     var submissions = _.indexBy(problem.submissions, 'user_id');
 
                     return _.object(users, _.map(users, function (user) {
                         var submission = submissions[user];
+
                         if (!submission) {
                             return null;
                         }
 
+                        // 提出のリンクURLを作成
                         submission.submission_url = contest.url + '/submissions/' + submission.submission_id;
 
                         return submissions[user];
@@ -84,7 +90,7 @@ $(function () {
 
             vm.submissions(submissions);
 
-            // problemsのリンク生成
+            // 問題のリンクURLを作成
             _.each(problems, function (problem) {
                 problem.displayName = problem.assignment + ': ' + problem.name;
                 problem.url = contest.url + '/tasks/' + problem.screen_name;
@@ -102,14 +108,14 @@ $(function () {
         vm.updateCurrentContest();
     });
 
-    // ユーザ追加に成功したら、現在のコンテストも更新
+    // ユーザ追加に成功したら、現在のコンテストを更新
     (function (f) {
         add_user_view_model.add = function () {
             return f.apply(this, arguments).then(vm.updateCurrentContest);
         };
     }(add_user_view_model.add));
 
-    // コンテスト追加に成功したら、コンテストリストを更新して、そのコンテストに変える
+    // コンテスト追加に成功したら、コンテストリストを更新して、そのコンテストを選択状態にする
     (function (f) {
         add_contest_view_model.add = function () {
             var url = add_contest_view_model.url();
@@ -141,12 +147,13 @@ $(function () {
     }]);
     /*** /アラートの設定 ***/
 
-    // ローディングの設定
+    /*** ローディングの設定 ***/
     loading_view_model.wrapDeferredAll(add_user_view_model, ['add']);
     loading_view_model.wrapDeferredAll(add_contest_view_model, ['add']);
     loading_view_model.wrapDeferredAll(vm, ['updateCurrentContest']);
+    /*** /ローディングの設定 ***/
 
-    //
+    /*** 以下初期動作 ***/
 
     loading_view_model.isLoading(true);
     contest_model.fetchContests().always(function () {
