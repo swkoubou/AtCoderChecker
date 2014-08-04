@@ -18,7 +18,7 @@ $(function () {
         };
 
     vm.users = ko.observableArray();
-    vm.users_display = ko.observableArray();
+    vm.usersDisplay = ko.observableArray();
     vm.contestList = ko.observableArray();
     vm.currentContestId = ko.observable();
     vm.submissions = ko.observableArray();
