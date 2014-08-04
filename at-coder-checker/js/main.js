@@ -35,6 +35,12 @@ $(function () {
         vm.contest_list(contests);
     });
 
+    // current_contest_idに追従してcurrent_contestも更新
+    vm.current_contest_id.subscribe(function (contest_id) {
+        vm.current_contest(contest_id ?
+            _.where(contest_model.contests(), { contest_id: contest_id })[0] : null);
+    });
+
     /**
      * 現在のコンテストを更新する
      *
@@ -52,7 +58,7 @@ $(function () {
             var fetched_submission = submission_model.lastFetchSubmission(),
                 users = _.pluck(user_model.users(), 'user_id'),
                 problems = fetched_submission.problems,
-                contest = _.where(contest_model.contests(), { contest_id: fetched_submission.contest_id })[0],
+                contest = vm.current_contest(),
                 // 表示用にサブミッションリストを整形する。
                 submissions_ary = _.map(fetched_submission.problems, function (problem) {
                     var submissions = _.indexBy(problem.submissions, 'user_id');
@@ -131,5 +137,5 @@ $(function () {
 
     ko.applyBindings(vm);
 
-    setTimeout(function () { vm.current_contest_id(13); }, 100);
+    setTimeout(function () { vm.current_contest_id(13); }, 1000);
 });

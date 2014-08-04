@@ -32,6 +32,10 @@
                        event: { change: update_current_contest }"></select>
     </div>
 
+    <h3 data-bind="if: current_contest()">
+        <a target="_blank" data-bind="text: current_contest().name, attr: { href: current_contest().url }"></a>
+    </h3>
+
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
