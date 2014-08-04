@@ -17,6 +17,10 @@
     margin-bottom: 20px;
 }
 
+.contest-name a {
+    color: inherit;
+}
+
 .submission {
     display: table-cell !important;
     vertical-align: middle !important;
@@ -36,4 +40,16 @@
 
 .submission-item {
     display: block;
+}
+
+.submission-item-AC {
+    color: #468847;
+}
+
+.submission-item-WA {
+    color: #f89406;
+}
+
+.submission-item-TLE {
+    color: #f89406;
 }

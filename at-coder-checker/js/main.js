@@ -136,6 +136,4 @@ $(function () {
     contest_model.fetchContests();
 
     ko.applyBindings(vm);
-
-    setTimeout(function () { vm.currentContestId(13); }, 1000);
 });

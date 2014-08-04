@@ -32,7 +32,7 @@
                        event: { change: updateCurrentContest }"></select>
     </div>
 
-    <h3 data-bind="if: currentContest()">
+    <h3 data-bind="if: currentContest()" class="contest-name">
         <a target="_blank" data-bind="text: currentContest().name, attr: { href: currentContest().url }"></a>
     </h3>
 
@@ -57,7 +57,9 @@
                                     $root.submissions()[problem.problem_id] &&
                                     $root.submissions()[problem.problem_id][user.user_id] -->
                         <!-- ko with: $root.submissions()[problem.problem_id][user.user_id] -->
-                        <a class="submission-item" target="_blank" data-bind="attr: { href: submission_url }">
+                        <a class="submission-item" target="_blank" data-bind="
+                        attr: { href: submission_url },
+                        css: 'submission-item-' + status ">
                             <span class="submission-status" data-bind="text: status"></span><br>
                             <span class="submission-score" data-bind="text: score"></span><br>
                             <span class="submission-language" data-bind="text: language"></span>
