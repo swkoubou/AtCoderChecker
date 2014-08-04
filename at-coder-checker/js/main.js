@@ -67,6 +67,13 @@ $(function () {
         });
     };
 
+    // ユーザ追加に成功したら、現在のコンテストも更新
+    (function (f) {
+        add_user_view_model.add = function () {
+            return f.apply(this, arguments).then(vm.update_current_contest);
+        };
+    }(add_user_view_model.add));
+
     /*** アラートの設定 ***/
     alert_view_model.wrapDeferredAll(add_user_view_model, [{
         methodName: 'add',

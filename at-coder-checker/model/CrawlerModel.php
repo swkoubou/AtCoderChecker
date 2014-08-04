@@ -19,7 +19,10 @@ class CrawlerModel extends BaseModel {
     }
 
     public function crawl($url) {
-        $cmd = "ruby " . self::$crawlerPath . " $url 1>" . self::$crawlerLogPath . " 2>" . self::$crawlerErrorLogPath;
+        $now = date("Y-m-d H:i:s");
+        exec("echo 'start: $now' 1>>" . self::$crawlerLogPath);
+
+        $cmd = "ruby " . self::$crawlerPath . " $url 1>>" . self::$crawlerLogPath . " 2>>" . self::$crawlerErrorLogPath;
         exec($cmd, $out, $res);
 
         if ($res) {

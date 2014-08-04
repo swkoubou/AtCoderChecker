@@ -37,7 +37,7 @@ class SubmissionModel extends BaseModel{
             throw new Exception($e);
         }
 
-        $date = date("Y-m-d h:i:s", strtotime("- " . CrawlerModel::CRAWL_INTERVAL_SECOND . "seconds"));
+        $date = date("Y-m-d H:i:s", strtotime("- " . CrawlerModel::CRAWL_INTERVAL_SECOND . "seconds"));
 
         return $contest['updated_at'] < $date;
     }
