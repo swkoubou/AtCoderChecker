@@ -100,12 +100,31 @@ ret_status = true
 begin
 	mysql_connection.query( "start transaction" )
 
-	sql = mysql_connection.prepare( "select contest_id from contest where url = ?" )
-	if !sql.execute( contest_url ).fetch then
+	sql = mysql_connection.prepare( "select contest_id, name from contest where url = ?" )
+	res = sql.execute( contest_url ).fetch
+	if !res then
 
 		puts "Insert Contest : " + contest_name
 		sql = mysql_connection.prepare( "insert into contest ( url, name ) values ( ?, ? )" )
 		sql.execute( contest_url, contest_name );
+		sql = mysql_connection.prepare( "select contest_id from contest where url = ?" )
+		contest_id = sql.execute( contest_url ).fetch[0]
+
+		collect_problems( contest_url + "assignments" ) do | assignment, problem_screen_name, problem_name |
+			puts "Insert Problem : " + problem_name
+			sql = mysql_connection.prepare( "insert into problem ( contest_id, assignment, screen_name, name ) values ( ?, ?, ?, ? )" )
+			sql.execute( contest_id, assignment, problem_screen_name, problem_name )
+		end
+	end
+
+	puts res[1]
+	puts !!res[1]
+
+	if res && res[1] == "" || res[1] == nil then
+
+		puts "Update Contest : " + contest_name
+		sql = mysql_connection.prepare( "update contest set name = ? where url = ?" )
+		sql.execute( contest_name, contest_url );
 		sql = mysql_connection.prepare( "select contest_id from contest where url = ?" )
 		contest_id = sql.execute( contest_url ).fetch[0]
 

@@ -54,22 +54,23 @@ class SubmissionModel extends BaseModel{
         // トランザクション
         $this->db->beginTransaction();
 
-        // 更新の必要がなかったら終了
-        if (!$this->needCrawl($contest_id)) {
-            $this->db->rollback();
-            return false;
-        };
-
-        // クロールする
-        $crawler_model = new CrawlerModel();
-
         try {
+            // クロールする
+            $crawler_model = new CrawlerModel();
+
+            // 更新の必要がなかったら終了
+            if (!$this->needCrawl($contest_id)) {
+                $this->db->rollback();
+                return false;
+            };
+
             $crawler_model->crawl($contest['url']);
+
+            $this->db->commit();
         } catch (Exception $e) {
+            $this->db->rollback();
             throw new Exception($e);
         }
-
-        $this->db->commit();
         // /トランザクション
 
         return true;
