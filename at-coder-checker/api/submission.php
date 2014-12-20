@@ -1,39 +1,55 @@
 <?php
 require_once __DIR__ . "/../model/SubmissionModel.php";
+require_once __DIR__ . "/../model/ContestModel.php";
 require_once __DIR__ . "/../model/config.php";
 require_once __DIR__ . "/../php/util.php";
 use util\Http;
 
 if ($_SERVER['REQUEST_METHOD'] === "GET"){
-    Http::setTypeJSON();
+    /**
+     *
+     */
 
-    // パラメータが間違っていたら throw 400
-    if (!array_key_exists('contest_id', $_GET)) {
-        http_response_code(400);
-        Http::throwErrorJSON('contest_id is required.');
-        exit;
-    }
-
-    // クライアントに返す連想配列
-    $res = [
-        "contest_id" => $_GET["contest_id"],
-        "problems" => []
-    ];
-
-    $m_submission = new SubmissionModel();
-
-    // サブミッションを取得する
     try {
-        $m_submission->crawl($_GET['contest_id']);
-        $res["problems"] = $m_submission->submissionGet($_GET["contest_id"]);
+        Http::setTypeJSON();
+
+        $m_submission = new SubmissionModel();
+        $m_contest = new ContestModel();
+
+        // contests_idの絞り込み
+        $contest_ids = [];
+        if (array_key_exists('contest_id', $_GET)) {
+            $contest_ids[] = $_GET["contest_id"];
+        } else {
+            $contests = $m_contest->contestGet();
+            foreach ($contests as $contest) {
+                $contest_ids[] = $contest['contest_id'];
+            }
+        }
+
+        // サブミッションを取得する
+        $res = [
+            'submissions' => []
+        ];
+        foreach ($contest_ids as $contest_id) {
+//            $m_submission->crawl($contest_id);
+            $problems = $m_submission->submissionGet($contest_id);
+
+            $res['submissions'][] = [
+                'contest_id' => $contest_id,
+                'problems' => $problems
+            ];
+        }
+
+        http_response_code(200);
+        echo json_encode($res, JSON_NUMERIC_CHECK);
+        exit;
+
     } catch (Exception $e) {
         http_response_code(500);
         Http::throwErrorJSON($e->getMessage());
         exit;
     }
-
-    http_response_code(200);
-    echo json_encode($res, JSON_NUMERIC_CHECK);
 
 } else {
     Http::throwErrorJSON("un supported at method type");

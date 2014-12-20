@@ -35,27 +35,30 @@
          * @returns {jQuery.Deferred}
          */
         that.fetchSubmission = function (contest_id) {
-            var deferred = $.Deferred();
+            var is_all = contest_id === undefined || contest_id === null;
 
-            $.ajax({
+            return $.ajax({
                 url: submission_url,
                 type: 'get',
                 dataType: 'json',
-                data: { contest_id: contest_id },
-                success: function (data) {
+                data: is_all ? null : { contest_id: contest_id }
+            }).then(function (data) {
+                var datum;
+
+                if (is_all) {
+                    // submissionデータを全て入れ替える
+                    that.submissions(data.submissions);
+                    that.lastFetchSubmission(data.submissions[0]);
+                } else {
+                    datum = data.submissions[0];
+
                     // もし既に存在しているコンテストデータだったら一旦削除する
-                    that.submissions.remove(function (submission) { return submission.contest_id === data.contest_id; });
+                    that.submissions.remove(function (submission) { return submission.contest_id === datum.contest_id; });
 
-                    that.submissions.push(data);
-
-                    that.lastFetchSubmission(data);
-
-                    deferred.resolve(data);
-                },
-                error: deferred.reject
+                    that.submissions.push(datum);
+                    that.lastFetchSubmission(datum);
+                }
             });
-
-            return deferred.promise();
         };
 
         return that;
