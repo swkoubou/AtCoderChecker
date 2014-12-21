@@ -70,11 +70,8 @@
                     <!-- ko foreach: { data: $root.users, as: 'user' } -->
 
                     <td class="text-center">
-                        <!-- ko if: $root.viewAllSubmissions() &&
-                                    $root.viewAllSubmissions()[contestId] &&
-                                    $root.viewAllSubmissions()[contestId][problem.problem_id] &&
-                                    $root.viewAllSubmissions()[contestId][problem.problem_id][user.user_id] -->
                         <!-- ko with: $root.viewAllSubmissions()[contestId][problem.problem_id][user.user_id] -->
+                        <!-- ko if: $data -->
                         <a class="submission-item" target="_blank" data-bind="
                         attr: { href: submission_url },
                         css: 'submission-item-' + status ">
@@ -83,12 +80,9 @@
                             <span class="submission-language" data-bind="text: language"></span>
                         </a>
                         <!-- /ko -->
-                        <!-- /ko -->
-                        <!-- ko ifnot: $root.viewAllSubmissions() &&
-                                       $root.viewAllSubmissions()[contestId] &&
-                                       $root.viewAllSubmissions()[contestId][problem.problem_id] &&
-                                       $root.viewAllSubmissions()[contestId][problem.problem_id][user.user_id] -->
+                        <!-- ko ifnot: $data -->
                         -
+                        <!-- /ko -->
                         <!-- /ko -->
                     </td>
 
