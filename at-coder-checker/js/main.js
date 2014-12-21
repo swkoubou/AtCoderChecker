@@ -45,7 +45,7 @@ $(function () {
 
         users.forEach(function (user) {
             // ユーザ表示名の決定
-            user.displayName = user.name + '(' + user.user_id + ')';
+            user.displayName = user.name + '<br>(' + user.user_id + ')';
 
             // ユーザ毎の提出リンクを作成
             user.submissionUrl = contest ? contest.url + 'submissions/all?user_screen_name=' + user.user_id : null;

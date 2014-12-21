@@ -47,7 +47,7 @@
                     <th class="problem-name">Problem</th>
                     <!-- ko foreach: { data: users } -->
                     <th class="submission">
-                        <a target="_blank" data-bind="text: displayName, attr: { href: submissionUrl }"></a>
+                        <a target="_blank" data-bind="html: displayName, attr: { href: submissionUrl }"></a>
                     </th>
                     <!-- /ko -->
                 </tr>
