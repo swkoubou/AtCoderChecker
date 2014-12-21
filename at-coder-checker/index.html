@@ -42,9 +42,9 @@
             <thead>
                 <tr>
                     <!-- ko ifnot: $root.currentContest() -->
-                    <th>Contest</th>
+                    <th class="contest-name-th">Contest</th>
                     <!-- /ko -->
-                    <th>Problem</th>
+                    <th class="problem-name">Problem</th>
                     <!-- ko foreach: { data: users } -->
                     <th class="submission">
                         <a target="_blank" data-bind="text: displayName, attr: { href: submissionUrl }"></a>
@@ -63,13 +63,13 @@
                     </th>
                     <!-- /ko -->
 
-                    <th class="text-center user-name">
+                    <th class="text-center user-name problem-name">
                         <a target="_blank" data-bind="text: problem.displayName, attr: { href: problem.url }"></a>
                     </th>
 
                     <!-- ko foreach: { data: $root.users, as: 'user' } -->
 
-                    <td class="text-center">
+                    <td class="submission">
                         <!-- ko with: $root.viewAllSubmissions()[contestId][problem.problem_id][user.user_id] -->
                         <!-- ko if: $data -->
                         <a class="submission-item" target="_blank" data-bind="

@@ -27,11 +27,21 @@
     font-size: 14px;
 }
 
-thead tr th {
-    text-align: center;
+table thead, table tbody {
+    display: block;
 }
 
-.submission {
+table tbody {
+    overflow-y: scroll;
+    height: 800px;
+}
+
+/*幅調整*/
+table td, table th {
+    table-layout: fixed;
+}
+
+thead tr th {
     text-align: center;
 }
 
@@ -73,5 +83,21 @@ thead tr th {
 }
 
 th.contest-name-th {
-    max-width: 5em;
+    min-width: 100px;
+    max-width: 100px;
+    width: 100px;
+}
+
+table > thead > tr > th.problem-name,
+table > tbody > tr > th.problem-name {
+    min-width: 200px;
+    max-width: 200px;
+    width: 200px;
+}
+
+.submission {
+    min-width: 80px;
+    max-width: 80px;
+    width:80px;
+    text-align: center;
 }
