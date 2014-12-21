@@ -10,6 +10,7 @@ $(function () {
         add_contest_view_model = new viewmodel_ns.AddContestViewModel(contest_model),
         alert_view_model = new viewmodel_ns.AlertViewModel(),
         loading_view_model = new viewmodel_ns.LoadingViewModel(),
+        user_view_model = new viewmodel_ns.UserViewModel(user_model),
         vm = {
             alert: alert_view_model,
             loading: loading_view_model,
@@ -17,7 +18,7 @@ $(function () {
             addContest: add_contest_view_model
         };
 
-    vm.users = ko.observableArray();
+    vm.users = user_view_model.users;
     vm.contestList = contest_model.contests;
     vm.currentContestId = ko.observable();
 
@@ -34,21 +35,12 @@ $(function () {
         return contest_id ? _.where(contests, { contest_id: contest_id })[0] : null;
     });
 
-    // ユーザリストが更新されたら、整形・ソートして、表示用にVMにぶち込む
-    user_model.users.subscribe(function (users) {
-        var contest = vm.currentContest();
-
-        // 入学年度, 名前で昇順にソート
-        users = users.sort(function (a, b) {
-            return (a.enrollment_year === b.enrollment_year ? a.name > b.name : a.enrollment_year > b.enrollment_year) ? 1 : -1;
-        });
+    // コンテストが変更されたら、ユーザ毎の提出リンクを再作成
+    vm.currentContest.subscribe(function (current_contest) {
+        var users = vm.users();
 
         users.forEach(function (user) {
-            // ユーザ表示名の決定
-            user.displayName = user.name + '<br>(' + user.user_id + ')';
-
-            // ユーザ毎の提出リンクを作成
-            user.submissionUrl = contest ? contest.url + 'submissions/all?user_screen_name=' + user.user_id : null;
+            user.submissionUrl(current_contest ? current_contest.url + 'submissions/all?user_screen_name=' + user.user_id : null);
         });
 
         vm.users(users);
@@ -160,6 +152,15 @@ $(function () {
                 });
         };
     }(add_contest_view_model.add));
+
+    vm.allUserVisible = ko.computed({
+        read: function () {
+            return _.every(vm.users(), function (user) { return user.visible(); });
+        },
+        write: function (value) {
+            _.each(vm.users(), function (user) { user.visible(value); });
+        }
+    });
 
     /*** アラートの設定 ***/
     alert_view_model.wrapDeferredAll(add_user_view_model, [{

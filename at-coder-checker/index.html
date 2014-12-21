@@ -46,7 +46,7 @@
                     <!-- /ko -->
                     <th class="problem-name">Problem</th>
                     <!-- ko foreach: { data: users } -->
-                    <th class="submission">
+                    <th class="submission" data-bind="visible: visible">
                         <a target="_blank" data-bind="html: displayName, attr: { href: submissionUrl }"></a>
                     </th>
                     <!-- /ko -->
@@ -68,8 +68,7 @@
                     </th>
 
                     <!-- ko foreach: { data: $root.users, as: 'user' } -->
-
-                    <td class="submission">
+                    <td class="submission" data-bind="visible: user.visible">
                         <!-- ko with: $root.viewAllSubmissions()[contestId][problem.problem_id][user.user_id] -->
                         <!-- ko if: $data -->
                         <a class="submission-item" target="_blank" data-bind="
@@ -101,6 +100,10 @@
 
         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-contest">
             <span class="glyphicon glyphicon-tower"> コンテスト追加</span>
+        </button>
+
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#config">
+            <span class="glyphicon glyphicon-cog"> コンフィグ</span>
         </button>
     </div>
 
@@ -189,6 +192,38 @@
     </div>
 </div>
 
+<!-- config view user -->
+<div class="modal fade" id="config" tabindex="-1" role="dialog" aria-labelledby="config" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Config View User</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="form-group">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <p>表示するユーザ</p>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" data-bind="checked: $root.allUserVisible"> All
+                                </label>
+                                <!-- ko foreach: users -->
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" data-bind="checked: visible">
+                                    <span data-bind="text: displayNameInline"></span>
+                                </label>
+                                <!-- /ko -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- alerts -->
 <div class="alerts" data-bind="foreach: alert.alerts">
     <div class="alert fade in" data-bind="css: { 'alert-success': isSuccess, 'alert-danger': !isSuccess }">
@@ -210,6 +245,7 @@
 <script src="js/viewmodel/LoadingViewModel.js"></script>
 <script src="js/viewmodel/AddUserViewModel.js"></script>
 <script src="js/viewmodel/AddContestViewModel.js"></script>
+<script src="js/viewmodel/UserViewModel.js"></script>
 <script src="js/main.js"></script>
 
 </body>

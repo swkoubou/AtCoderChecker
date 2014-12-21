@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET"){
 
         // contestが1つだったらクロールする
         if (count($contest_ids) === 1) {
-            $m_submission->crawl($contest_ids[0]);
+//            $m_submission->crawl($contest_ids[0]);
         }
 
         // サブミッションを取得する
