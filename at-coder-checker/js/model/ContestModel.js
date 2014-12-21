@@ -34,8 +34,8 @@
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {
-                    // URLで降順にソート
-                    data = data.sort(function (a, b) { return a.url < b.url ? 1 : -1; });
+                    // URLで昇順にソート
+                    data = data.sort(function (a, b) { return a.url < b.url ? -1 : 1; });
 
                     that.contests(data);
                     deferred.resolve(data);

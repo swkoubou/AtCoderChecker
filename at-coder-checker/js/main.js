@@ -68,14 +68,21 @@ $(function () {
                 submissions = {},
                 all_submissions = {},
                 all_problems = {},
+                contest_list = vm.contestList(),
                 users = _.pluck(user_model.users(), 'user_id');
 
             targets = (current_contest_id === null || current_contest_id === undefined) ?
-                submission_model.submissions() : [submission_model.lastFetchSubmission()];
+                //submission_model.submissions() :
+                submission_model.submissions().sort(function (a, b) {
+                    var contest_a = _.where(contest_list, { contest_id: a.contest_id })[0],
+                        contest_b = _.where(contest_list, { contest_id: b.contest_id })[0];
+                    return contest_a.url < contest_b.url ? -1 : 1;
+                }) :
+                [submission_model.lastFetchSubmission()];
 
             _.each(targets, function (target_submission) {
                 problems = target_submission.problems;
-                contest = _.where(vm.contestList(), { contest_id: target_submission.contest_id })[0];
+                contest = _.where(contest_list, { contest_id: target_submission.contest_id })[0];
 
                 // 表示用にサブミッションリストを整形する
                 submissions_ary = _.map(target_submission.problems, function (problem) {
