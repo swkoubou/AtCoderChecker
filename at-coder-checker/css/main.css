@@ -27,18 +27,7 @@
     font-size: 14px;
 }
 
-table thead, table tbody {
-    display: block;
-}
-
 table tbody {
-    overflow-y: scroll;
-    height: 800px;
-}
-
-/*幅調整*/
-table td, table th {
-    table-layout: fixed;
 }
 
 thead tr th {
@@ -116,4 +105,9 @@ section {
 
 section:last-child {
     margin-bottom: 0;
+}
+
+div.scroll-div {
+    overflow: auto;
+    height: 800px;
 }

@@ -66,14 +66,15 @@ $(function () {
                 all_problems = {},
                 contest_list = vm.contestList(),
                 user_ids = _.pluck(user_model.users(), 'user_id'),
-                users = vm.users();
+                users = vm.users(),
+                is_all = current_contest_id === null || current_contest_id === undefined;
 
             // ACカウントのリセット
             _.each(users, function (user) {
                 user.acceptNum(0);
             });
 
-            targets = (current_contest_id === null || current_contest_id === undefined) ?
+            targets = is_all ?
                 submission_model.submissions().sort(function (a, b) {
                     var contest_a = _.where(contest_list, { contest_id: a.contest_id })[0],
                         contest_b = _.where(contest_list, { contest_id: b.contest_id })[0];
@@ -144,8 +145,8 @@ $(function () {
             vm.viewAllContestIds(_.pluck(targets, 'contest_id'));
 
             // レイアウト修正
-            $('table').css('width', 'auto');
-
+            $('.scroll-div table').attr('_fixedhead', 'rows:1; cols:' + (is_all ? 2 : 1));
+            FixedMidashi.create();
         }).then(contest_model.fetchContests); // updated_timeが更新されてるから取得しなおす;
     };
 
