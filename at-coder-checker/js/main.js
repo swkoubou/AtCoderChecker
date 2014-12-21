@@ -18,7 +18,7 @@ $(function () {
         };
 
     vm.users = ko.observableArray();
-    vm.contestList = ko.observableArray();
+    vm.contestList = contest_model.contests;
     vm.currentContestId = ko.observable();
 
     // 表示する全ての提出と問題、コンテスト
@@ -52,12 +52,6 @@ $(function () {
         });
 
         vm.users(users);
-    });
-
-    // コンテストリストが更新されたら、URLでソートしてVMにぶち込む
-    contest_model.contests.subscribe(function (contests) {
-        // URLで昇順にソート
-        vm.contestList(contests.sort(function (a, b) { return a.url > b.url ? 1 : -1; }));
     });
 
     // 現在のコンテストを更新する
