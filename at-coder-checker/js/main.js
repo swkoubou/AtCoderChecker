@@ -101,6 +101,9 @@ $(function () {
                         // 提出のリンクURLを作成
                         a_submission.submission_url = contest.url + '/submissions/' + a_submission.submission_id;
 
+                        // 表示用lにlanguageの加工
+                        a_submission.language = a_submission.language.replace(/\(.*\)/, '');
+
                         return a_submission;
                     }));
                 });
