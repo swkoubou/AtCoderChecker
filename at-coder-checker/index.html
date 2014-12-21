@@ -47,7 +47,8 @@
                     <th class="problem-name">Problem</th>
                     <!-- ko foreach: { data: users } -->
                     <th class="submission" data-bind="visible: visible">
-                        <a target="_blank" data-bind="html: displayName, attr: { href: submissionUrl }"></a>
+                        <a target="_blank" data-bind="html: displayName, attr: { href: submissionUrl }"></a><br>
+                        <span class="badge alert-success" data-bind="text: acceptNum"></span>
                     </th>
                     <!-- /ko -->
                 </tr>

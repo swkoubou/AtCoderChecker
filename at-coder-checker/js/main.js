@@ -49,6 +49,8 @@ $(function () {
     // 現在のコンテストを更新する
     vm.updateCurrentContest = function () {
         var current_contest_id = vm.currentContestId();
+
+        // リセット 描画を抑制する
         vm.viewAllContestIds.removeAll();
 
         return $.when(
@@ -61,10 +63,15 @@ $(function () {
                 all_submissions = {},
                 all_problems = {},
                 contest_list = vm.contestList(),
-                users = _.pluck(user_model.users(), 'user_id');
+                user_ids = _.pluck(user_model.users(), 'user_id'),
+                users = vm.users();
+
+            // ACカウントのリセット
+            _.each(users, function (user) {
+                user.acceptNum(0);
+            });
 
             targets = (current_contest_id === null || current_contest_id === undefined) ?
-                //submission_model.submissions() :
                 submission_model.submissions().sort(function (a, b) {
                     var contest_a = _.where(contest_list, { contest_id: a.contest_id })[0],
                         contest_b = _.where(contest_list, { contest_id: b.contest_id })[0];
@@ -78,12 +85,12 @@ $(function () {
 
                 // 表示用にサブミッションリストを整形する
                 submissions_ary = _.map(target_submission.problems, function (problem) {
-                    return _.object(users, _.map(users, function (user) {
+                    return _.object(user_ids, _.map(user_ids, function (user_id) {
                         var a_submission,
-                            user_submission = _.where(problem.submissions, { user_id: user });
+                            user_submission = _.where(problem.submissions, { user_id: user_id }),
+                            user = _.where(users, { user_id: user_id })[0];
 
                         if (!user_submission.length) { return null; }
-
 
                         // 最もスコアが高く、最も最後に提出したものを表示用にする
                         a_submission = user_submission.sort(function (a, b) {
@@ -95,6 +102,11 @@ $(function () {
 
                         // 表示用lにlanguageの加工
                         a_submission.language = a_submission.language.replace(/\(.*\)/, '');
+
+                        // AC数をカウント
+                        if (a_submission.status === 'AC') {
+                            user.acceptNum(user.acceptNum() + 1);
+                        }
 
                         return a_submission;
                     }));
@@ -116,6 +128,14 @@ $(function () {
                 }
             });
 
+            // AC数、入学年度, 名前で昇順にソート
+            users = users.sort(function (a, b) {
+                if (a.acceptNum() !== b.acceptNum()) { return (a.acceptNum() < b.acceptNum()) ? 1 : -1; }
+                if (a.encrollment_year !== b.encrollment_year) { return (a.enrollment_year > b.enrollment_year) ? 1 : -1; }
+                return (a.name > b.name) ? 1 : -1;
+            });
+
+            vm.users(users);
             vm.viewAllSubmissions(all_submissions);
             vm.viewAllProblems(all_problems);
             vm.viewAllContestIds(_.pluck(targets, 'contest_id'));
@@ -153,6 +173,7 @@ $(function () {
         };
     }(add_contest_view_model.add));
 
+    // 全ユーザの可視状態変更用の変数
     vm.allUserVisible = ko.computed({
         read: function () {
             return _.every(vm.users(), function (user) { return user.visible(); });

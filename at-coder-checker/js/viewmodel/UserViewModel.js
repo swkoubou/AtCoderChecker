@@ -25,7 +25,10 @@
                 // 提出用リンク作成
                 user.submissionUrl = ko.observable();
 
-                // 表示するか否か （可能なら）localStorageに値を保持する
+                // 選択されたコンテストの正答submission数
+                user.acceptNum = ko.observable(0);
+
+                // tableに表示するか否か （可能なら）localStorageに値を保持する
                 (function () {
                     var x = ko.observable(true),
                         key = 'user.' + user.user_id + '.visible';
