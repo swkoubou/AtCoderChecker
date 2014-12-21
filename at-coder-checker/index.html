@@ -75,9 +75,18 @@
                         <a class="submission-item" target="_blank" data-bind="
                         attr: { href: submission_url },
                         css: 'submission-item-' + status ">
-                            <span class="submission-status" data-bind="text: status"></span><br>
-                            <span class="submission-score" data-bind="text: score"></span><br>
-                            <span class="submission-language" data-bind="text: language"></span>
+                            <p class="submission-status" data-bind="
+                            text: status,
+                            visible: $root.config.visibleSubmissionCell.status.value"></p>
+                            <p class="submission-score" data-bind="
+                            text: score,
+                            visible: $root.config.visibleSubmissionCell.score.value"></p>
+                            <p class="submission-language" data-bind="
+                            text: language,
+                            visible: $root.config.visibleSubmissionCell.language.value"></p>
+                            <p class="submission-language-version" data-bind="
+                            text: languageVersion,
+                            visible: $root.config.visibleSubmissionCell.languageVersion.value"></p>
                         </a>
                         <!-- /ko -->
                         <!-- ko ifnot: $data -->
@@ -113,10 +122,21 @@
         <p>
             ソフトウェア工房 競技プログラミング用の支援システムです。<br>
             <a href="http://atcoder.jp/" target="_blank">AtCoder</a> において、登録されたユーザのサブミッションデータを集計して表示します。<br>
-            集計はごりごりクローラして行っていますが、最低10分間隔でしか集計しないようになっているので、たぶん大丈夫。
-        </p>
-        <p>
+            集計はごりごりクローラして行っていますが、最低10分間隔でしか集計しないようになっているので、たぶん大丈夫。<br>
             開発はGitHubで行っています。リポジトリは<a href="https://github.com/swkoubou/AtCoderChecker" target="_blank">ここ</a>。<br>
+        </p>
+
+        <h3>クロール</h3>
+        <p>
+            現在AM4:00に全てのデータをクロールしています。<br>
+            コンテストの選択をAllにした場合は、クロールされません。<br>
+            1つのコンテストを選択した場合は、前回のクロール時よりも10分以上経過してれば、再クロールします。
+        </p>
+
+        <h3>コンフィグ</h3>
+        <p>
+            下部のコンフィグボタンから、表示するユーザと、各submissionセルに表示する項目を変更できます。<br>
+            コンフィグはブラウザ依存です（localStorageに格納します）。
         </p>
     </div>
 </div>
@@ -206,16 +226,30 @@
                     <div class="form-group">
                         <div class="modal-body">
                             <div class="form-group">
-                                <p>表示するユーザ</p>
-                                <label class="checkbox-inline">
-                                    <input type="checkbox" data-bind="checked: $root.allUserVisible"> All
-                                </label>
-                                <!-- ko foreach: users -->
-                                <label class="checkbox-inline">
-                                    <input type="checkbox" data-bind="checked: visible">
-                                    <span data-bind="text: displayNameInline"></span>
-                                </label>
-                                <!-- /ko -->
+                                <section>
+                                    <h4>表示するユーザ</h4>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" data-bind="checked: $root.allUserVisible"> All
+                                    </label>
+                                    <!-- ko foreach: users -->
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" data-bind="checked: visible">
+                                        <span data-bind="text: displayNameInline"></span>
+                                    </label>
+                                    <!-- /ko -->
+                                </section>
+
+                                <section>
+                                    <h4>Submissionセルに表示する情報</h4>
+                                    <!-- ko foreach: Object.keys(config.visibleSubmissionCell) -->
+                                    <!-- ko with: $root.config.visibleSubmissionCell[$data] -->
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" data-bind="checked: value">
+                                        <span data-bind="text: label"></span>
+                                    </label>
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                </section>
                             </div>
                         </div>
                     </div>
@@ -247,6 +281,7 @@
 <script src="js/viewmodel/AddUserViewModel.js"></script>
 <script src="js/viewmodel/AddContestViewModel.js"></script>
 <script src="js/viewmodel/UserViewModel.js"></script>
+<script src="js/viewmodel/ConfigViewModel.js"></script>
 <script src="js/main.js"></script>
 
 </body>

@@ -11,11 +11,13 @@ $(function () {
         alert_view_model = new viewmodel_ns.AlertViewModel(),
         loading_view_model = new viewmodel_ns.LoadingViewModel(),
         user_view_model = new viewmodel_ns.UserViewModel(user_model),
+        config_view_model = new viewmodel_ns.ConfigViewModel(),
         vm = {
             alert: alert_view_model,
             loading: loading_view_model,
             addUser: add_user_view_model,
-            addContest: add_contest_view_model
+            addContest: add_contest_view_model,
+            config: config_view_model
         };
 
     vm.users = user_view_model.users;
@@ -101,6 +103,7 @@ $(function () {
                         a_submission.submission_url = contest.url + '/submissions/' + a_submission.submission_id;
 
                         // 表示用lにlanguageの加工
+                        a_submission.languageVersion = a_submission.language.replace(/(.*)(\(.*\))(.*)/, '$2');
                         a_submission.language = a_submission.language.replace(/\(.*\)/, '');
 
                         // AC数をカウント
@@ -139,6 +142,9 @@ $(function () {
             vm.viewAllSubmissions(all_submissions);
             vm.viewAllProblems(all_problems);
             vm.viewAllContestIds(_.pluck(targets, 'contest_id'));
+
+            // レイアウト修正
+            $('table').css('width', 'auto');
 
         }).then(contest_model.fetchContests); // updated_timeが更新されてるから取得しなおす;
     };

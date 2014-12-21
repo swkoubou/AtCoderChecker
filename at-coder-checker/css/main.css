@@ -52,14 +52,22 @@ thead tr th {
 
 .submission-status {
     font-size: 20px;
+    margin: 0;
 }
 
 .submission-score {
     font-size: 14px;
+    margin: 0;
 }
 
 .submission-language {
     font-size: 10px;
+    margin: 0;
+}
+
+.submission-language-version {
+    font-size: 10px;
+    margin: 0;
 }
 
 .submission-item {
@@ -100,4 +108,12 @@ table > tbody > tr > th.problem-name {
     max-width: 80px;
     width:80px;
     text-align: center;
+}
+
+section {
+    margin-bottom: 35px;
+}
+
+section:last-child {
+    margin-bottom: 0;
 }
