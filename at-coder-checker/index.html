@@ -27,7 +27,7 @@
                 data-bind="options: contestList,
                        optionsText: 'name',
                        optionsValue: 'contest_id',
-                       optionsCaption: 'Select contest...',
+                       optionsCaption: 'All',
                        value: currentContestId,
                        event: { change: updateCurrentContest }"></select>
     </div>
@@ -41,7 +41,10 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>#</th>
+                    <!-- ko ifnot: $root.currentContest() -->
+                    <th>Contest</th>
+                    <!-- /ko -->
+                    <th>Problem</th>
                     <!-- ko foreach: { data: users } -->
                     <th class="submission">
                         <a target="_blank" data-bind="text: displayName, attr: { href: submissionUrl }"></a>
@@ -49,8 +52,17 @@
                     <!-- /ko -->
                 </tr>
             </thead>
-            <tbody data-bind="foreach: { data: $root.problems, as: 'problem' }">
+            <tbody>
+                <!-- ko foreach: { data: $root.viewAllContestIds, as: 'contestId' } -->
+                <!-- ko foreach: { data: $root.viewAllProblems()[contestId], as: 'problem' } -->
                 <tr>
+                    <!-- ko if: !$root.currentContest() &&  problem.isFirst -->
+                    <th class="contest-name-th" data-bind="
+                    text: _.where($root.contestList(), {'contest_id' : contestId})[0].name,
+                    attr: { rowspan: $root.viewAllProblems()[contestId].length }">
+                    </th>
+                    <!-- /ko -->
+
                     <th class="text-center user-name">
                         <a target="_blank" data-bind="text: problem.displayName, attr: { href: problem.url }"></a>
                     </th>
@@ -58,10 +70,11 @@
                     <!-- ko foreach: { data: $root.users, as: 'user' } -->
 
                     <td class="text-center">
-                        <!-- ko if: $root.submissions() &&
-                                    $root.submissions()[problem.problem_id] &&
-                                    $root.submissions()[problem.problem_id][user.user_id] -->
-                        <!-- ko with: $root.submissions()[problem.problem_id][user.user_id] -->
+                        <!-- ko if: $root.viewAllSubmissions() &&
+                                    $root.viewAllSubmissions()[contestId] &&
+                                    $root.viewAllSubmissions()[contestId][problem.problem_id] &&
+                                    $root.viewAllSubmissions()[contestId][problem.problem_id][user.user_id] -->
+                        <!-- ko with: $root.viewAllSubmissions()[contestId][problem.problem_id][user.user_id] -->
                         <a class="submission-item" target="_blank" data-bind="
                         attr: { href: submission_url },
                         css: 'submission-item-' + status ">
@@ -71,15 +84,18 @@
                         </a>
                         <!-- /ko -->
                         <!-- /ko -->
-                        <!-- ko ifnot: $root.submissions() &&
-                                    $root.submissions()[problem.problem_id] &&
-                                    $root.submissions()[problem.problem_id][user.user_id] -->
+                        <!-- ko ifnot: $root.viewAllSubmissions() &&
+                                       $root.viewAllSubmissions()[contestId] &&
+                                       $root.viewAllSubmissions()[contestId][problem.problem_id] &&
+                                       $root.viewAllSubmissions()[contestId][problem.problem_id][user.user_id] -->
                         -
                         <!-- /ko -->
                     </td>
 
                     <!-- /ko -->
                 </tr>
+                <!-- /ko -->
+                <!-- /ko -->
             </tbody>
         </table>
     </div>

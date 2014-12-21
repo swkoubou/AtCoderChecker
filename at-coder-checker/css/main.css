@@ -27,6 +27,10 @@
     font-size: 14px;
 }
 
+thead tr th {
+    text-align: center;
+}
+
 .submission {
     text-align: center;
 }
@@ -66,4 +70,8 @@
 
 .submission-item-RE {
     color: #f89406;
+}
+
+th.contest-name-th {
+    max-width: 5em;
 }

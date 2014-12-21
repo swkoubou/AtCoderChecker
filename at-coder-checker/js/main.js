@@ -20,8 +20,11 @@ $(function () {
     vm.users = ko.observableArray();
     vm.contestList = ko.observableArray();
     vm.currentContestId = ko.observable();
-    vm.submissions = ko.observableArray();
-    vm.problems = ko.observable();
+
+    // 表示する全ての提出と問題、コンテスト
+    vm.viewAllSubmissions = ko.observable({});
+    vm.viewAllProblems = ko.observable({});
+    vm.viewAllContestIds = ko.observableArray();
 
     // 現在のコンテスト
     vm.currentContest = ko.computed(function () {
@@ -59,28 +62,35 @@ $(function () {
 
     // 現在のコンテストを更新する
     vm.updateCurrentContest = function () {
-        if (!vm.currentContestId()) {
-            return $.Deferred().reject();
-        }
+        var current_contest_id = vm.currentContestId();
+        vm.viewAllContestIds.removeAll();
 
         return $.when(
             // 他の人がユーザリストを更新した可能性もあるため、ユーザリストも一緒に更新する
             user_model.fetchUsers(),
-            submission_model.fetchSubmission(vm.currentContestId())
+            submission_model.fetchSubmission(current_contest_id)
         ).then(function () {
-            var fetched_submission = submission_model.lastFetchSubmission(),
-                users = _.pluck(user_model.users(), 'user_id'),
-                problems = fetched_submission.problems,
-                contest = vm.currentContest(),
-                // 表示用にサブミッションリストを整形する
-                submissions_ary = _.map(fetched_submission.problems, function (problem) {
-                    return _.object(users, _.map(users, function (user) {
-                        var user_submission = _.where(problem.submissions, { user_id: user }),
-                            a_submission;
+            var submissions_ary, problems, contest, targets,
+                submissions = {},
+                all_submissions = {},
+                all_problems = {},
+                users = _.pluck(user_model.users(), 'user_id');
 
-                        if (!user_submission.length) {
-                            return null;
-                        }
+            targets = (current_contest_id === null || current_contest_id === undefined) ?
+                submission_model.submissions() : [submission_model.lastFetchSubmission()];
+
+            _.each(targets, function (target_submission) {
+                problems = target_submission.problems;
+                contest = _.where(vm.contestList(), { contest_id: target_submission.contest_id })[0];
+
+                // 表示用にサブミッションリストを整形する
+                submissions_ary = _.map(target_submission.problems, function (problem) {
+                    return _.object(users, _.map(users, function (user) {
+                        var a_submission,
+                            user_submission = _.where(problem.submissions, { user_id: user });
+
+                        if (!user_submission.length) { return null; }
+
 
                         // 最もスコアが高く、最も最後に提出したものを表示用にする
                         a_submission = user_submission.sort(function (a, b) {
@@ -92,23 +102,29 @@ $(function () {
 
                         return a_submission;
                     }));
-                }),
+                });
+
                 // submissions[問題ID][ユーザID] = サブミッションデータ
                 submissions = _.object(_.pluck(problems, 'problem_id'), submissions_ary);
+                all_submissions[target_submission.contest_id] = submissions;
 
-            vm.submissions(submissions);
+                // 問題のリンクURLと表示名の作成
+                _.each(problems, function (problem) {
+                    problem.displayName = problem.assignment + ': ' + problem.name;
+                    problem.url = contest.url + '/tasks/' + problem.screen_name;
+                });
+                all_problems[target_submission.contest_id] = problems;
 
-            // 問題のリンクURLと表示名の作成
-            _.each(problems, function (problem) {
-                problem.displayName = problem.assignment + ': ' + problem.name;
-                problem.url = contest.url + '/tasks/' + problem.screen_name;
+                if (problems.length) {
+                    problems[0].isFirst = true;
+                }
             });
 
-            vm.problems(problems);
+            vm.viewAllSubmissions(all_submissions);
+            vm.viewAllProblems(all_problems);
+            vm.viewAllContestIds(_.pluck(targets, 'contest_id'));
 
-            // updated_timeが更新されてるから取得しなおす
-            contest_model.fetchContests();
-        });
+        }).then(contest_model.fetchContests); // updated_timeが更新されてるから取得しなおす;
     };
 
     // 選択しているコンテストが変更されたら、コンテストを更新
@@ -164,9 +180,13 @@ $(function () {
     /***** 以下初期動作 *****/
 
     loading_view_model.isLoading(true);
-    contest_model.fetchContests().always(function () {
-        loading_view_model.isLoading(false);
-    });
+    contest_model.fetchContests()
+        .then(function () {
+            vm.updateCurrentContest();
+        })
+        .always(function () {
+            loading_view_model.isLoading(false);
+        });
 
     ko.applyBindings(vm);
 });

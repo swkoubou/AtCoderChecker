@@ -27,12 +27,16 @@ if ($_SERVER['REQUEST_METHOD'] === "GET"){
             }
         }
 
+        // contestが1つだったらクロールする
+        if (count($contest_ids) === 1) {
+            $m_submission->crawl($contest_ids[0]);
+        }
+
         // サブミッションを取得する
         $res = [
             'submissions' => []
         ];
         foreach ($contest_ids as $contest_id) {
-//            $m_submission->crawl($contest_id);
             $problems = $m_submission->submissionGet($contest_id);
 
             $res['submissions'][] = [
