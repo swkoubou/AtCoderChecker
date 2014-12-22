@@ -110,4 +110,5 @@ section:last-child {
 div.scroll-div {
     overflow: auto;
     height: 800px;
+    margin-bottom: 20px;
 }
