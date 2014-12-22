@@ -104,15 +104,15 @@
     </div>
 
     <div id="btn-area">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-user">
+        <button id="open-modal-add-user" type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-user">
             <span class="glyphicon glyphicon-user"> ユーザ追加</span>
         </button>
 
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-contest">
+        <button id="open-modal-add-contest" type="button" class="btn btn-success" data-toggle="modal" data-target="#add-contest">
             <span class="glyphicon glyphicon-tower"> コンテスト追加</span>
         </button>
 
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#config">
+        <button id="open-modal-config" type="button" class="btn btn-info" data-toggle="modal" data-target="#config">
             <span class="glyphicon glyphicon-cog"> コンフィグ</span>
         </button>
     </div>
@@ -283,24 +283,22 @@
 <script src="js/viewmodel/AddContestViewModel.js"></script>
 <script src="js/viewmodel/UserViewModel.js"></script>
 <script src="js/viewmodel/ConfigViewModel.js"></script>
-<script src="js/main.js"></script>
-
+<script src="js/main.js"></script><script src="js/piwiktracking.js"></script>
 <!-- Piwik -->
 <script type="text/javascript">
     var _paq = _paq || [];
-
-    if (location.origin === 'http://202.250.66.29') {
-        _paq.push(['trackPageView']);
-        _paq.push(['enableLinkTracking']);
-        (function() {
-            var u="//202.250.66.29/piwik/";
-            _paq.push(['setTrackerUrl', u+'piwik.php']);
-            _paq.push(['setSiteId', 1]);
-            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-            g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-        })();
-    }
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+        if (location.origin !== 'http://202.250.66.29') { return; } // 本サーバ以外は無視
+        var u="//202.250.66.29/piwik/";
+        _paq.push(['setTrackerUrl', u+'piwik.php']);
+        _paq.push(['setSiteId', 1]);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+    })();
 </script>
+<noscript><p><img src="//202.250.66.29/piwik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
 <!-- End Piwik Code -->
 
 </body>
