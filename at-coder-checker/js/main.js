@@ -132,10 +132,10 @@ $(function () {
                 }
             });
 
-            // AC数、入学年度, 名前で昇順にソート
+            // AC数降順、入学年度昇順, 名前昇順で昇順にソート
             users = users.sort(function (a, b) {
                 if (a.acceptNum() !== b.acceptNum()) { return (a.acceptNum() < b.acceptNum()) ? 1 : -1; }
-                if (a.encrollment_year !== b.encrollment_year) { return (a.enrollment_year > b.enrollment_year) ? 1 : -1; }
+                if (a.enrollment_year !== b.enrollment_year) { return (a.enrollment_year > b.enrollment_year) ? 1 : -1; }
                 return (a.name > b.name) ? 1 : -1;
             });
 
