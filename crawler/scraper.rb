@@ -103,7 +103,6 @@ begin
 	sql = mysql_connection.prepare( "select contest_id, name from contest where url = ?" )
 	res = sql.execute( contest_url ).fetch
 	if !res then
-
 		puts "Insert Contest : " + contest_name
 		sql = mysql_connection.prepare( "insert into contest ( url, name ) values ( ?, ? )" )
 		sql.execute( contest_url, contest_name );
@@ -117,11 +116,7 @@ begin
 		end
 	end
 
-	puts res[1]
-	puts !!res[1]
-
-	if res && res[1] == "" || res[1] == nil then
-
+	if res && res != nil && (res[1] == "" || res[1] == nil) then
 		puts "Update Contest : " + contest_name
 		sql = mysql_connection.prepare( "update contest set name = ? where url = ?" )
 		sql.execute( contest_name, contest_url );
@@ -166,8 +161,10 @@ begin
 	puts "Update Timestamp"
 	sql = mysql_connection.prepare( "update contest set updated_at = NULL where contest_id = ?" )
 	sql.execute( contest_id )
-rescue
+rescue => e
 	puts "Error!"
+	puts e.message
+	puts e.backtrace
 	mysql_connection.query( "rollback" )
 	ret_status = false
 else
