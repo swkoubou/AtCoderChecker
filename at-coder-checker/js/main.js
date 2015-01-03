@@ -18,7 +18,15 @@ $(function () {
             addUser: add_user_view_model,
             addContest: add_contest_view_model,
             config: config_view_model
-        };
+        },
+        // テーブルレイアウトの修正
+        recreate_fixed_header = _.debounce(function () {
+            var current_contest_id = vm.currentContestId(),
+                is_all = current_contest_id === null || current_contest_id === undefined;
+            console.log("fixed");
+            $('.scroll-div table').attr('_fixedhead', 'rows:1; cols:' + (is_all ? 2 : 1));
+            FixedMidashi.create();
+        }, 200);
 
     vm.users = user_view_model.users;
     vm.contestList = contest_model.contests;
@@ -145,8 +153,7 @@ $(function () {
             vm.viewAllContestIds(_.pluck(targets, 'contest_id'));
 
             // レイアウト修正
-            $('.scroll-div table').attr('_fixedhead', 'rows:1; cols:' + (is_all ? 2 : 1));
-            FixedMidashi.create();
+            recreate_fixed_header();
         }).then(contest_model.fetchContests); // updated_timeが更新されてるから取得しなおす;
     };
 
@@ -187,7 +194,15 @@ $(function () {
         },
         write: function (value) {
             _.each(vm.users(), function (user) { user.visible(value); });
+            recreate_fixed_header();
         }
+    });
+
+    //コンフィグの表示ユーザ情報が更新されたら、レイアウトを再計算する
+    user_view_model.users.subscribe(function (users) {
+        users.forEach(function (user) {
+            user.visible.subscribe(recreate_fixed_header);
+        });
     });
 
     /*** アラートの設定 ***/
